@@ -18,12 +18,14 @@ def hello_world():
     return render_template('index.html', val = cars)
 
 
-@app.route("/recommend",methods=['GET', 'POST'])
-def recommend():
+@app.route("/results",methods=['GET', 'POST'])
+def results():
     results = request.form.get('search-term')
-    # titles,imgs = authors_recommendations(results)[0], authors_recommendations(results)[1]
-    # titles = [i for i in titles]
-    # imgs = [i for i in imgs]
-    return results
+    return render_template('results.html', val = results)
+
+@app.route('/results-view')
+def results_view():
+    return render_template('results-view.html')
+
 if __name__ == "__main__":
 	app.run(debug=True)
