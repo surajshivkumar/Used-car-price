@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply 2xl:text-[78px] xl:text-7xl lg:text-7xl text-4xl 2xl:leading-[90px] xl:leading-[87px] font-bold;
+  }
+  h2 {
+    @apply lg:text-[56px] text-xl lg:leading-[68px] font-bold;
+  }
+  h3 {
+    @apply lg:text-[32px] text-lg lg:leading-10 font-medium;
+  }
+  h4 {
+    @apply lg:text-2xl text-base;
+  }
+  h5,
+  h6,
+  p,
+  a {
+    @apply lg:text-lg text-base font-normal lg:leading-6;
+  }
+}

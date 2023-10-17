@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block title %}Results View{% endblock %} {% block
+content %}
+<div class="h-full bg-gray-100">
+  <div class="container">
+    <div>
+      <img src="../static/results-view.jpeg" alt="" class="w-full h-[600px]" />
+      <div
+        class="flex justify-between lg:p-4 p-2 bg-white shadow-lg rounded-md mt-6"
+      >
+        <h5 class="font-semibold text-center">2022 Ford Maverick</h5>
+        <h5 class="font-semibold">$25.52</h5>
+      </div>
+    </div>
+
+    <div>
+      <h2>Similar vehicles</h2>
+      <div class="container lg:pt-12 pt-6">
+        <div class="grid grid-cols-4 w-full">
+          <div class="border-b border-b-red-500 pb-1 text-center text-red-500">
+            LOWER PAYMENT
+          </div>
+          <div class="border-b border-b-gray-300 pb-1 text-center">
+            LOWER PRICE
+          </div>
+          <div class="border-b border-b-gray-300 pb-1 text-center">
+            LOWER MILEAGE
+          </div>
+          <div class="border-b border-b-gray-300 pb-1 text-center">
+            DIFFERENT COLOR
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
