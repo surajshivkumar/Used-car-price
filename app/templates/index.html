@@ -1,1 +1,85 @@
-<h1>HELLO WORLD</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/css/autoComplete.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container mt-5 pt-10">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <h1 class="mb-3">What should I read next?</h1>
+        <h3 class="mb-5">
+          Enter a book title and we'll give you some recommendations
+        </h3>
+
+        <div class="autoComplete_wrapper">
+          <form action="/recommend" method="POST" id="myForm">
+            <input
+              id="autoComplete"
+              type="search"
+              dir="ltr"
+              spellcheck="false"
+              autocorrect="off"
+              autocomplete="off"
+              autocapitalize="off"
+              name="search-term"
+              value=""
+            />
+          </form>
+        </div>
+      </div>
+      <img src="../static/new.png" alt="" />
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/autoComplete.min.js"></script>
+    <script>
+      let flaskData = {{ val|tojson }}
+
+      const autoCompleteJS = new autoComplete({
+        selector: "#autoComplete",
+        placeHolder: "Search for Books...",
+        searchEngine: "strict",
+        threshold: 2,
+        data: {
+          // src: flaskData,
+          src: ["Sauce - Thousand Island", "Wild Boar - Tenderloin", "Goat - Whole Cut"],
+          cache: true,
+        },
+        resultsList: {
+          element: (list, data) => {
+            if (!data.results.length) {
+              // Create "No Results" message element
+              const message = document.createElement("div");
+              // Add class to the created element
+              message.setAttribute("class", "no_result");
+              // Add message text content
+              message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+              // Append message element to the results list
+              list.prepend(message);
+            }
+          },
+          noResults: true,
+        },
+        resultItem: {
+          highlight: true
+        },
+        events: {
+          input: {
+            selection: (event) => {
+              console.log("HELLO")
+              const selection = event.detail.selection.value;
+              autoCompleteJS.input.value = selection;
+              document.getElementById("myForm").submit();
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
