@@ -14,9 +14,9 @@
   <body>
     <div class="container mt-5 pt-10">
       <div class="d-flex flex-column justify-content-center align-items-center">
-        <h1 class="mb-3">What should I read next?</h1>
+        <h1 class="mb-3">Looking For a new Ride?</h1>
         <h3 class="mb-5">
-          Enter a book title and we'll give you some recommendations
+          Search from our vast fleet of vehicles
         </h3>
 
         <div class="autoComplete_wrapper">
@@ -43,12 +43,12 @@
 
       const autoCompleteJS = new autoComplete({
         selector: "#autoComplete",
-        placeHolder: "Search for Books...",
+        placeHolder: "Search for your next Car...",
         searchEngine: "strict",
         threshold: 2,
         data: {
-          // src: flaskData,
-          src: ["Sauce - Thousand Island", "Wild Boar - Tenderloin", "Goat - Whole Cut"],
+          src: flaskData,
+        //   src: ["Sauce - Thousand Island", "Wild Boar - Tenderloin", "Goat - Whole Cut"],
           cache: true,
         },
         resultsList: {
