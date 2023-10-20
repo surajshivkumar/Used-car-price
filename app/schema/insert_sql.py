@@ -22,8 +22,8 @@ def get_confg(path: str):
     return config
 
 def push_to_sql(data: pd.DataFrame, config: configparser.ConfigParser):
-    table = config['sql-table']['table_all_cars']
-    pk = config['sql-table']['table_all_cars_pk']
+    table = config['sql-table']['table_car_features']
+    pk = config['sql-table']['table_car_features_pk']
     df_columns = list(data)
     columns = ",".join(df_columns)
     values = "VALUES({})".format(",".join(["%s" for _ in df_columns]))
@@ -50,6 +50,37 @@ def get_data(data_path):
     df = df[['car_id','car_make','car_brand','car_year']]
     return df
 
+def get_data_car_details(data_path):
+    df = pd.read_excel(data_path)
+    df['id'] = df.index
+    df = df[['id','mileage_miles','price',
+       'Body Style', 'Doors', 'MPG', 
+       'Engine', 'Transmission', 'Drive Type', 'Fuel', 'Tank Size',
+       'Bed Style', 'Cab Style']]
+    
+    df = df.rename(columns={'price':'car_price'})
+    df.columns = ['cd_'+i.lower().replace(' ','_')  for i in df.columns]
+    return df
+
+def get_data_car_features(data_path):
+    df = pd.read_excel(data_path)
+    df['car_id'] = df.index
+    
+    df = df[['car_id','Android Auto', 'Apple CarPlay',
+       'Backup Camera / Assist', 'Bluetooth', 'Heated Seats',
+       'Hill Assist System', 'Keyless Entry', 'Keyless Ignition',
+       'Multimedia / Telematics', 'Premium Sound System', 'Satellite Radio',
+       'Sunroof / Moonroof', 'Leather Seats', 'Power Seats',
+       'Traction Control', 'Driver Assistance / Confidence Pkg',
+       'Head-Up Display', 'Lane Departure Warning', 'Navigation System',
+       'Remote Start', 'Blind Spot Monitor', 'Lane Assist',
+       'Parking Assist System', 'Stability Control', 'Adaptive Cruise Control',
+       'Alloy Wheels', 'Cooled Seats', 'Full Self-Driving Capability',
+       'Third Row Seating', 'Tow Hitch / Package', 'Rear Seat Entertainment']]
+    df = df.fillna(0)
+    df.columns = ['cf_'+i.lower().replace(' / ',' ').replace('-',' ').replace(' ','_')  for i in df.columns]
+    return df
+
 def main(conf_path: str,data_path:str):
     #main
     start_time = time.time()
@@ -58,7 +89,7 @@ def main(conf_path: str,data_path:str):
 
     config = get_confg(conf_path)
 
-    data = get_data(data_path)
+    data = get_data_car_features(data_path)
     push_to_sql(data, config)
     time_taken   = time.time() - start_time
     print('Time taken = {} s'.format(round(time_taken,1)))
