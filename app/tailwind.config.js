@@ -2,7 +2,16 @@
 module.exports = {
   content: ["./templates/*"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        green: {
+          300: "#35D0B2",
+        },
+        blue: {
+          900: "#061321",
+        },
+      },
+    },
     container: {
       center: true,
       padding: {

@@ -1,13 +1,14 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<div class="section">
+<div class="top-section">
   <div
-    class="container h-full grid grid-cols-2 lg:gap-24 gap-12 items-center justify-center lg:py-24 py-12"
+    class="container h-full grid grid-cols-2 lg:gap-24 gap-12 items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
   >
-  
     <div>
-      <h1 class="mb-3">Looking For a New Ride?</h1>
-      <p class="mb-5">Search from our vast fleet of vehicles</p>
+      <h1 class="mb-3">
+        Looking For a <span class="text-orange-600">New Ride?</span>
+      </h1>
+      <p class="mb-5 text-slate-500">Search from our vast fleet of vehicles</p>
 
       <div class="autoComplete_wrapper">
         <form action="/results" method="POST" id="myForm">
@@ -21,94 +22,137 @@
             autocapitalize="off"
             name="search-term"
             value=""
+            class="!border-orange-600 !text-orange-600"
           />
+          <input type="hidden" name="type" value="search" />
         </form>
       </div>
     </div>
     <div class="flex items-center justify-center">
-      <img src="../static/garage.jpeg" alt="" class="w-180 h-120" />
+      <img src="../static/assets/garage.webp" alt="" class="w-full" />
     </div>
   </div>
 </div>
 
-<div class="section bg-gray-100 lg:py-24 py-12">
+<div class="section bg-orange-gradient lg:py-24 py-12">
   <div class="container">
     <h2>View by vehicle type</h2>
+    <form action="/results" method="POST" id="hiddenForm">
+      <input
+        type="hidden"
+        id="search-term-by-type"
+        name="search-term"
+        value=""
+      />
+      <input type="hidden" name="type" value="vehicleType" />
+    </form>
     <div class="grid grid-cols-4 lg:gap-6 gap-3 lg:pt-12 pt-6">
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#B8B3BB] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('pickup')"
       >
-        <img src="../static/pickup.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">Pickups</p>
+        <img
+          src="../static/assets/pickup.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 group-hover:text-white font-semibold">
+          Pickups
+        </p>
       </a>
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#FBB317] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('suv')"
       >
-        <img src="../static/SUV.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">SUV</p>
+        <img
+          src="../static/assets/SUV.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 group-hover:text-white font-semibold">SUV</p>
       </a>
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#033178] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('hatchback')"
       >
-        <img src="../static/hatchback.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">Hatchback</p>
+        <img
+          src="../static/assets/hatchback.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 group-hover:text-white font-semibold">
+          Hatchback
+        </p>
       </a>
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#DEDBDB] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('coupe')"
       >
-        <img src="../static/coupe.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">Coupe</p>
+        <img
+          src="../static/assets/coupe.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 font-semibold">Coupe</p>
       </a>
 
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#F1F1F1] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('sedan')"
       >
-        <img src="../static/sedan.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">Sedan</p>
+        <img
+          src="../static/assets/sedan.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 font-semibold">Sedan</p>
       </a>
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#FFE6CD] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('convertible')"
       >
-        <img src="../static/convertible.png" alt="" class="w-100 h-100" />
-        <p class="text-center">Convertible</p>
+        <img
+          src="../static/assets/convertible.png"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 font-semibold">Convertible</p>
       </a>
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#F86E7D] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('minivan')"
       >
-        <img src="../static/Minivan.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">Minivan</p>
+        <img
+          src="../static/assets/Minivan.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 group-hover:text-white font-semibold">
+          Minivan
+        </p>
       </a>
       <a
-        class="shadow-md rounded-md p-4 hover:shadow-lg cursor-pointer bg-white"
-        href="./results"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#F1EAA8] hover:scale-105 transition-transform"
+        href="javascript:void(0);"
+        onclick="submitForm('wagon')"
       >
-        <img src="../static/wagon.jpeg" alt="" class="w-100 h-100" />
-        <p class="text-center">Wagon</p>
+        <img
+          src="../static/assets/wagon.jpeg"
+          alt=""
+          class="w-full rounded-xl group-hover:scale-110"
+        />
+        <p class="text-center pt-2 font-semibold">Wagon</p>
       </a>
     </div>
   </div>
 </div>
-
-<style>
-  html {
-    scroll-snap-type: y mandatory;
-    scroll-padding-top: 64px;
-  }
-
-  .section {
-    scroll-snap-align: start;
-    height: 100vh;
-    scroll-snap-stop: normal;
-    width: 100%;
-  }
-</style>
 
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/autoComplete.min.js"></script>
 <script>
@@ -121,37 +165,71 @@
     threshold: 2,
     data: {
       src: flaskData,
-      // src: ["Sauce - Thousand Island", "Wild Boar - Tenderloin", "Goat - Whole Cut"],
       cache: true,
     },
     resultsList: {
       element: (list, data) => {
         if (!data.results.length) {
-          // Create "No Results" message element
           const message = document.createElement("div");
-          // Add class to the created element
           message.setAttribute("class", "no_result");
-          // Add message text content
           message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
-          // Append message element to the results list
           list.prepend(message);
         }
       },
       noResults: true,
     },
     resultItem: {
-      highlight: true
+      highlight: true,
     },
     events: {
       input: {
         selection: (event) => {
-          console.log("HELLO")
+          console.log("HELLO");
           const selection = event.detail.selection.value;
           autoCompleteJS.input.value = selection;
           document.getElementById("myForm").submit();
-        }
-      }
-    }
+        },
+      },
+    },
   });
+
+  function submitForm(type) {
+    document.getElementById("search-term-by-type").value = type;
+    document.getElementById("hiddenForm").submit();
+  }
 </script>
+
+<style>
+  html {
+    /* scroll-snap-type: y mandatory;
+    scroll-padding-top: 64px; */
+  }
+
+  .section {
+    width: 100%;
+    /* height: 100vh; */
+    /* scroll-snap-align: start;
+    scroll-snap-stop: normal; */
+  }
+
+  .top-section {
+    position: relative;
+  }
+  /* .top-section::before {
+    position: absolute;
+    right: -10%;
+    top: -35%;
+    z-index: -1;
+    height: 800px;
+    width: 800px;
+    border-radius: 9999px;
+    --tw-content: "";
+    content: var(--tw-content);
+    background: linear-gradient(
+      200deg,
+      rgb(247, 240, 237) 40%,
+      rgb(241, 246, 245) 100%
+    );
+  } */
+</style>
 {% endblock %}

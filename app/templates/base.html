@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>{% block title %}Car Recommendation{% endblock %}</title>
@@ -10,9 +10,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/css/autoComplete.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+    />
     <style>
-      nav {
+      .nav-sticky {
         box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+        background: white;
       }
       html,
       body {
@@ -24,15 +29,46 @@
     </style>
   </head>
   <body>
-    <nav class="h-16 sticky top-0 bg-gray-100 z-50">
-      <div class="container h-full flex items-center justify-between">
-        <a >Garage_</a>
-        <div class="flex gap-2">
-          <div>BUY</div>
-          <div>SELL</div>
+    <nav class="h-16 z-50 sticky top-0" id="navbar">
+      <div class="container h-full">
+        <div class="h-full flex items-center justify-between px-2">
+          <a
+            class="cursor-pointer flex items-center gap-1 hover:text-orange-600"
+            href="/"
+          >
+            <span class="material-symbols-rounded"> garage </span>
+            Garage_</a
+          >
+          <div class="flex gap-4 relative">
+            <a
+              class="hover:text-orange-600 cursor-pointer font-semibold w-fit"
+              href="/"
+              >BUY</a
+            >
+            <a
+              class="hover:text-orange-600 cursor-pointer font-semibold w-fit"
+              href="./sell"
+              >SELL</a
+            >
+          </div>
         </div>
       </div>
     </nav>
     <div class="content h-full">{% block content %}{% endblock %}</div>
+    <script>
+      const elementToTrack = document.getElementById("navbar");
+
+      function addClassOnScroll() {
+        // Check if the user has scrolled vertically
+        if (window.scrollY > 10) {
+          elementToTrack.classList.add("nav-sticky");
+        } else {
+          elementToTrack.classList.remove("nav-sticky");
+        }
+      }
+
+      // Add an event listener to the window for the scroll event
+      window.addEventListener("scroll", addClassOnScroll);
+    </script>
   </body>
 </html>

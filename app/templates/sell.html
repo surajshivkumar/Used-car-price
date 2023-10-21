@@ -1,0 +1,248 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<div class="top-section h-screen">
+  <div
+    class="container h-full flex items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
+  >
+    <div class="lg:w-7/12 w-full">
+      <h1 class="mb-3">
+        See what your <span class="text-orange-600">car is worth</span>
+      </h1>
+      <p class="mb-5 text-slate-500">
+        Get an instant appraisal in as little as 2 minutes.
+      </p>
+    </div>
+    <div class="lg:w-5/12 w-full flex items-center justify-center">
+      <form
+        action="/sell"
+        method="post"
+        class="shadow-lg bg-white p-6 rounded-xl w-full"
+      >
+        <p class="lg:pb-4 pb-2 font-semibold">
+          Please fill in the form to get a quote
+        </p>
+        <div class="grid grid-cols-1 gap-4">
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carType">Car Type</label>
+            <select
+              required
+              id="carType"
+              name="carType"
+              class="border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+            >
+              <option value="" disabled selected>Please select</option>
+              {% for car in car_types %}
+              <option value="{{ car }}">{{ car }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carMake">Car Make</label>
+            <select
+              id="carMake"
+              name="carMake"
+              disabled
+              class="border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+            >
+              <option value="" disabled selected>
+                Please select a car type first
+              </option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carModel">Car Model</label>
+            <select
+              id="carModel"
+              name="carModel"
+              disabled
+              class="border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+            >
+              <option value="" disabled selected>
+                Please select a car make first
+              </option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carMileage">Car Mileage</label>
+            <input
+              type="text"
+              name="carMileage"
+              id="carMileage"
+              placeholder="Enter Mileage"
+              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carColor">Car Color</label>
+            <input
+              type="text"
+              name="carColor"
+              id="carColor"
+              placeholder="Enter Color"
+              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carYear">Car Year</label>
+            <input
+              type="number"
+              name="carYear"
+              id="carYear"
+              placeholder="Enter Year"
+              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+            />
+          </div>
+        </div>
+        <div class="flex justify-end lg:pt-10 pt-5">
+          <button
+            type="submit"
+            class="text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
+          >
+            Get Quote
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  id="price-section"
+  class="hidden lg:py-24 py-12 w-full bg-orange-gradient h-[600px]"
+>
+  <div id="loading" class="flex flex-col items-center">
+    <img src="../static/assets/loading.gif" alt="gif" class="w-80 h-80" />
+    <h4>Loading, please wait while we find the right price</h4>
+  </div>
+
+  <h2 id="price" class="hidden">The price is {{price}}</h2>
+</div>
+<style>
+  .top-section {
+    position: relative;
+  }
+  .top-section::before {
+    position: absolute;
+    right: -10%;
+    top: -35%;
+    z-index: -1;
+    height: 800px;
+    width: 800px;
+    border-radius: 9999px;
+    --tw-content: "";
+    content: var(--tw-content);
+    background: linear-gradient(
+      200deg,
+      rgb(247, 240, 237) 40%,
+      rgb(241, 246, 245) 100%
+    );
+  }
+</style>
+<script>
+  let carPrice = {{ price }};
+  console.log('cp', carPrice);
+  if (carPrice) {
+      let priceSection = document.getElementById("price-section");
+      priceSection.classList.add("flex");
+      priceSection.classList.add("justify-center");
+      priceSection.classList.add("items-center");
+      priceSection.classList.add("flex-col");
+      priceSection.classList.remove("hidden");
+
+      priceSection.scrollIntoView({
+        behavior: 'smooth', // You can use 'auto' for an instant scroll
+        block: 'start'      // You can use 'center' or 'end' for different positions
+    });
+
+    setTimeout(() => {
+      let price = document.getElementById("price");
+      let loading = document.getElementById("loading");
+      price.classList.remove("hidden");
+      loading.classList.add("hidden");
+    }, 3500)
+  }
+    let carTypeSelect = document.getElementById("carType");
+    let carMakeSelect = document.getElementById("carMake");
+    let carModelSelect = document.getElementById("carModel");
+
+    // Event listener for carTypeSelect
+    carTypeSelect.addEventListener("change", function () {
+      let selectedCarType = carTypeSelect.value;
+
+      // Clear and disable the carMakeSelect
+      carMakeSelect.innerHTML = "";
+      carMakeSelect.disabled = true;
+
+      if (selectedCarType) {
+        // Fetch car models from the backend based on the selected car type
+        fetch("/get_car_make/" + selectedCarType)
+          .then((response) => response.json())
+          .then((data) => {
+            let placeholderOption = document.createElement("option");
+            placeholderOption.value = "";
+            placeholderOption.textContent = "Please select";
+            placeholderOption.disabled = true;
+            placeholderOption.selected = true;
+            carMakeSelect.appendChild(placeholderOption);
+
+            data.forEach(function (carMake) {
+              let option = document.createElement("option");
+              option.value = carMake;
+              option.textContent = carMake;
+              carMakeSelect.appendChild(option);
+            });
+
+            carMakeSelect.disabled = false;
+          })
+          .catch((error) => console.error(error));
+      } else {
+        let placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = "Please select a car type first";
+        carMakeSelect.appendChild(placeholderOption);
+      }
+    });
+
+    carMakeSelect.addEventListener("change", function () {
+      let selectedCarMake = carMakeSelect.value;
+
+      // Clear and disable the carMakeSelect
+      carModelSelect.innerHTML = "";
+      carModelSelect.disabled = true;
+
+      if (selectedCarMake) {
+        // Fetch car models from the backend based on the selected car type
+        fetch("/get_car_model/" + selectedCarMake)
+          .then((response) => response.json())
+          .then((data) => {
+            let placeholderOption = document.createElement("option");
+            placeholderOption.value = "";
+            placeholderOption.textContent = "Please select";
+            placeholderOption.disabled = true;
+            placeholderOption.selected = true;
+            carModelSelect.appendChild(placeholderOption);
+
+            data.forEach(function (carMake) {
+              let option = document.createElement("option");
+              option.value = carMake;
+              option.textContent = carMake;
+              carModelSelect.appendChild(option);
+            });
+
+            carModelSelect.disabled = false;
+          })
+          .catch((error) => console.error(error));
+      } else {
+        let placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = "Please select a car make first";
+        carModelSelect.appendChild(placeholderOption);
+      }
+    });
+</script>
+{% endblock %}

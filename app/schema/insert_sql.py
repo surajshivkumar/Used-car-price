@@ -22,8 +22,8 @@ def get_confg(path: str):
     return config
 
 def push_to_sql(data: pd.DataFrame, config: configparser.ConfigParser):
-    table = config['sql-table']['table_car_features']
-    pk = config['sql-table']['table_car_features_pk']
+    table = config['sql-table']['table_all_cars']
+    pk = config['sql-table']['table_all_cars_pk']
     df_columns = list(data)
     columns = ",".join(df_columns)
     values = "VALUES({})".format(",".join(["%s" for _ in df_columns]))
@@ -89,7 +89,7 @@ def main(conf_path: str,data_path:str):
 
     config = get_confg(conf_path)
 
-    data = get_data_car_features(data_path)
+    data = get_data(data_path)
     push_to_sql(data, config)
     time_taken   = time.time() - start_time
     print('Time taken = {} s'.format(round(time_taken,1)))

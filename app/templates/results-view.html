@@ -1,33 +1,78 @@
 {% extends "base.html" %} {% block title %}Results View{% endblock %} {% block
 content %}
-<div class="h-full bg-gray-100">
-  <div class="container">
-    <div>
-      <img src="../static/results-view.jpeg" alt="" class="w-full h-[600px]" />
+<div>
+  <div class="lg:py-24 py-12 flex flex-col justify-center items-center">
+    <div class="container">
+      <img
+        src="../static/assets/results-view.jpeg"
+        alt=""
+        class="w-full h-[600px] rounded-lg object-cover"
+      />
       <div
-        class="flex justify-between lg:p-4 p-2 bg-white shadow-lg rounded-md mt-6"
+        class="w-full flex justify-between lg:p-4 p-2 bg-white shadow-lg rounded-md mt-6"
       >
         <h5 class="font-semibold text-center">2022 Ford Maverick</h5>
         <h5 class="font-semibold">$25.52</h5>
       </div>
     </div>
+  </div>
 
-    <div>
-      <h2>Similar vehicles</h2>
+  <div class="w-full bg-orange-gradient lg:py-24 py-12">
+    <div class="container">
+      <h2 class="text-center">Similar vehicles</h2>
       <div class="container lg:pt-12 pt-6">
         <div class="grid grid-cols-4 w-full">
-          <div class="border-b border-b-red-500 pb-1 text-center text-red-500">
+          <div
+            class="border-b border-b-red-500 pb-1 text-center font-semibold cursor-pointer text-red-500"
+          >
             LOWER PAYMENT
           </div>
-          <div class="border-b border-b-gray-300 pb-1 text-center">
+          <div
+            class="border-b border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
+          >
             LOWER PRICE
           </div>
-          <div class="border-b border-b-gray-300 pb-1 text-center">
+          <div
+            class="border-b border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
+          >
             LOWER MILEAGE
           </div>
-          <div class="border-b border-b-gray-300 pb-1 text-center">
+          <div
+            class="border-b border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
+          >
             DIFFERENT COLOR
           </div>
+        </div>
+        <div class="grid grid-cols-3 gap-6 lg:pt-12 pt-6">
+          <a
+            class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
+            href="./results-view"
+          >
+            <img
+              src="../static/assets/car-result.webp"
+              alt=""
+              class="w-full rounded-t-md aspect-video"
+            />
+            <div class="flex justify-between lg:p-4 p-2">
+              <h5 class="font-semibold text-center">Ford</h5>
+              <h5 class="font-semibold">$25.52</h5>
+            </div>
+          </a>
+
+          <a
+            class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
+            href="./results-view"
+          >
+            <img
+              src="../static/assets/car-result.webp"
+              alt=""
+              class="w-full rounded-t-md aspect-video"
+            />
+            <div class="flex justify-between lg:p-4 p-2">
+              <h5 class="font-semibold text-center">Ford</h5>
+              <h5 class="font-semibold">$25.52</h5>
+            </div>
+          </a>
         </div>
       </div>
     </div>

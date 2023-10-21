@@ -22,3 +22,11 @@
     @apply lg:text-lg text-base font-normal lg:leading-6;
   }
 }
+
+.bg-orange-gradient {
+  background: linear-gradient(
+    300deg,
+    rgb(247, 240, 237) 0%,
+    rgb(241, 246, 245) 75%
+  );
+}
