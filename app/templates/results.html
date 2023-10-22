@@ -49,76 +49,35 @@ content %}
     </div>
   </div>
   <div class="xl:w-10/12 w-9/12 p-4">
-    <p>Showing results for {{val}}</p>
+    <p>Showing results for {{searchTerm}}</p>
     <div
       class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-3 lg:pt-12 pt-6"
     >
+      {% for car in results %}
       <a
         class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
         href="./results-view"
       >
         <img
-          src="../static/assets/car-result.webp"
+          src="../static//assets/results/{{car.path}}"
           alt=""
           class="w-full h-48 rounded-t-md"
         />
         <div class="flex justify-between lg:p-4 p-2">
-          <h5 class="font-semibold text-center">Ford</h5>
-          <h5 class="font-semibold">$25.52</h5>
+          <h5 class="font-semibold text-center">{{car.year}}</h5>
+          <h5 class="font-semibold">${{car.price}}</h5>
         </div>
       </a>
-      <a
-        class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
-        href="./results-view"
-      >
-        <img
-          src="../static/assets/car-result.webp"
-          alt=""
-          class="w-full h-48 rounded-t-md"
-        />
-        <div class="flex justify-between lg:p-4 p-2">
-          <h5 class="font-semibold text-center">Ford</h5>
-          <h5 class="font-semibold">$25.52</h5>
-        </div>
-      </a>
-
-      <a
-        class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
-        href="./results-view"
-      >
-        <img
-          src="../static/assets/car-result.webp"
-          alt=""
-          class="w-full h-48 rounded-t-md"
-        />
-        <div class="flex justify-between lg:p-4 p-2">
-          <h5 class="font-semibold text-center">Ford</h5>
-          <h5 class="font-semibold">$25.52</h5>
-        </div>
-      </a>
-
-      <a
-        class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
-        href="./results-view"
-      >
-        <img
-          src="../static/assets/car-result.webp"
-          alt=""
-          class="w-full h-48 rounded-t-md"
-        />
-        <div class="flex justify-between lg:p-4 p-2">
-          <h5 class="font-semibold text-center">Ford</h5>
-          <h5 class="font-semibold">$25.52</h5>
-        </div>
-      </a>
+      {% endfor %}
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/autoComplete.min.js"></script>
 <script>
-  let flaskData = {{ val|tojson }}
-  console.log('flaskData', flaskData);
+  let flaskData;
+  console.log("flaskData", flaskData);
+  // console.log("check results =>", results);
 
   const autoCompleteJS = new autoComplete({
     selector: "#autoComplete",

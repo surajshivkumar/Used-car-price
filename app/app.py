@@ -38,33 +38,30 @@ def hello_world():
 
 @app.route("/results",methods=['POST'])
 def results():
-    results = request.form.get('search-term')
-    type = request.form.get('type')
-    if type == 'search':
-        conn = get_sql_conn(config['sql-prod'],
-                        config.get('sql-prod', 'bi_db'))
-        searchResult = pd.read_sql('''select cd_mileage_miles as mileage,
-                                             car_year as Year,
-                                             car_make as Make,
-                                             cd_car_price as Price,
-                                             cd_path as path
+    searchTerm = request.form.get('search-term')
+    conn = get_sql_conn(config['sql-prod'],
+                    config.get('sql-prod', 'bi_db'))
+    searchResult = pd.read_sql('''select cd_mileage_miles as mileage,
+                                            car_year as Year,
+                                            car_make as Make,
+                                            cd_car_price as Price,
+                                            cd_path_ as path
+                                    from car_details cd 
+                                    left join all_cars ac on ac.car_id = cd.cd_id
+                                    where upper(ac.car_make) = '{make}' and upper(ac.car_brand) = '{brand}' '''.format(make = searchTerm.split(' ')[0].upper(), 
+                                                                                                                    brand= ' '.join(searchTerm.split(' ')[1:]).upper() ),conn)
+    conn.close()
+    print(searchResult)
+    searchResult['search'] = searchTerm
+    searchResult['path'] = searchResult.path
+    searchResult = [term for term in searchResult.T.to_dict().values()]
+    print('CHECK ->', searchResult)
+    # do something
+    return render_template('results.html', searchTerm=searchTerm, results=searchResult)
 
-                                       from car_details cd 
-                                       left join all_cars ac on ac.car_id = cd.cd_id 
-                                       where upper(ac.car_make) = '{make}' and upper(ac.car_brand) = '{brand}' '''.format(make = results.split(' ')[0].upper(), 
-                                                                                                                      brand= ' '.join(results.split(' ')[1:]).upper() ),conn)
-        conn.close()
-        print(searchResult)
-        searchResult['search'] = results
-        searchResult['path'] = '../data/images/' + searchResult.path
-        searchResult = [term for term in searchResult.T.to_dict().values()]
-        print(searchResult)
-        # do something
-        return render_template('results.html', val = results)
-
-    else:
-        # do something
-        return render_template('results.html', val = results)
+    # else:
+    #     # do something
+    #     return render_template('results.html', val = results)
 
 @app.route('/results-view')
 def results_view():
@@ -75,7 +72,7 @@ def sell():
     print('first')
     conn = get_sql_conn(config['sql-prod'],
                         config.get('sql-prod', 'bi_db'))
-    possibleSearches = pd.read_sql('''select ac.car_make,ac.car_brand,cd.cd_body_style from car_details cd left join all_cars ac on ac.car_id = cd.cd_id ''',conn)
+    possibleSearches = pd.read_sql('''select cd.cd_make as car_make,cd.cd_model as car_brand,cd.cd_body_style from car_details cd''',conn)
     conn.close()
     possibleSearches = possibleSearches[possibleSearches.cd_body_style!='NaN']
     possibleSearchesCarType = possibleSearches.groupby(['cd_body_style']).agg(Makes = ('car_make',lambda x:list(set(x)))).to_dict()
