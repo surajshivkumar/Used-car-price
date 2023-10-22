@@ -48,6 +48,9 @@
               <option value="" disabled selected>
                 Please select a car type first
               </option>
+              {% for make in car_make %}
+              <option value="{{ make }}">{{ make }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -144,7 +147,8 @@
   }
 </style>
 <script>
-  let carPrice = {{ price }};
+  // let carPrice = {{ price }};
+  let carPrice;
   console.log('cp', carPrice);
   if (carPrice) {
       let priceSection = document.getElementById("price-section");
