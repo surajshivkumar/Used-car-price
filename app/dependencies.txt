@@ -1,0 +1,125 @@
+used-car-price@1.0.0 /Users/suraj/Documents/used_car/app
+├─┬ autoprefixer@10.4.16
+│ ├─┬ browserslist@4.22.1
+│ │ ├── caniuse-lite@1.0.30001549 deduped
+│ │ ├── electron-to-chromium@1.4.556
+│ │ ├── node-releases@2.0.13
+│ │ └─┬ update-browserslist-db@1.0.13
+│ │   ├── browserslist@4.22.1 deduped
+│ │   ├── escalade@3.1.1
+│ │   └── picocolors@1.0.0 deduped
+│ ├── caniuse-lite@1.0.30001549
+│ ├── fraction.js@4.3.7
+│ ├── normalize-range@0.1.2
+│ ├── picocolors@1.0.0
+│ ├── postcss-value-parser@4.2.0
+│ └── postcss@8.4.31 deduped
+├─┬ postcss@8.4.31
+│ ├── nanoid@3.3.6
+│ ├── picocolors@1.0.0 deduped
+│ └── source-map-js@1.0.2
+├─┬ prettier-plugin-tailwindcss@0.5.6
+│ ├── UNMET OPTIONAL DEPENDENCY @ianvs/prettier-plugin-sort-imports@*
+│ ├── UNMET OPTIONAL DEPENDENCY @prettier/plugin-pug@*
+│ ├── UNMET OPTIONAL DEPENDENCY @shopify/prettier-plugin-liquid@*
+│ ├── UNMET OPTIONAL DEPENDENCY @shufo/prettier-plugin-blade@*
+│ ├── UNMET OPTIONAL DEPENDENCY @trivago/prettier-plugin-sort-imports@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-astro@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-css-order@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-import-sort@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-jsdoc@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-organize-attributes@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-organize-imports@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-style-order@*
+│ ├── UNMET OPTIONAL DEPENDENCY prettier-plugin-svelte@*
+│ └── prettier@3.0.3 deduped
+├── prettier@3.0.3
+├── slim-select@2.6.0
+└─┬ tailwindcss@3.3.3
+  ├── @alloc/quick-lru@5.2.0
+  ├── arg@5.0.2
+  ├─┬ chokidar@3.5.3
+  │ ├─┬ anymatch@3.1.3
+  │ │ ├── normalize-path@3.0.0 deduped
+  │ │ └── picomatch@2.3.1 deduped
+  │ ├─┬ braces@3.0.2
+  │ │ └── fill-range@7.0.1
+  │ ├── fsevents@2.3.3
+  │ ├─┬ glob-parent@5.1.2
+  │ │ └── is-glob@4.0.3 deduped
+  │ ├─┬ is-binary-path@2.1.0
+  │ │ └── binary-extensions@2.2.0
+  │ ├── is-glob@4.0.3 deduped
+  │ ├── normalize-path@3.0.0 deduped
+  │ └─┬ readdirp@3.6.0
+  │   └── picomatch@2.3.1 deduped
+  ├── didyoumean@1.2.2
+  ├── dlv@1.1.3
+  ├─┬ fast-glob@3.3.1
+  │ ├── @nodelib/fs.stat@2.0.5
+  │ ├─┬ @nodelib/fs.walk@1.2.8
+  │ │ ├── @nodelib/fs.scandir@2.1.5
+  │ │ └── fastq@1.15.0
+  │ ├─┬ glob-parent@5.1.2
+  │ │ └── is-glob@4.0.3 deduped
+  │ ├── merge2@1.4.1
+  │ └── micromatch@4.0.5 deduped
+  ├─┬ glob-parent@6.0.2
+  │ └── is-glob@4.0.3 deduped
+  ├─┬ is-glob@4.0.3
+  │ └── is-extglob@2.1.1
+  ├── jiti@1.20.0
+  ├── lilconfig@2.1.0
+  ├─┬ micromatch@4.0.5
+  │ ├── braces@3.0.2 deduped
+  │ └── picomatch@2.3.1
+  ├── normalize-path@3.0.0
+  ├── object-hash@3.0.0
+  ├── picocolors@1.0.0 deduped
+  ├─┬ postcss-import@15.1.0
+  │ ├── postcss-value-parser@4.2.0 deduped
+  │ ├── postcss@8.4.31 deduped
+  │ ├─┬ read-cache@1.0.0
+  │ │ └── pify@2.3.0
+  │ └── resolve@1.22.8 deduped
+  ├─┬ postcss-js@4.0.1
+  │ ├── camelcase-css@2.0.1
+  │ └── postcss@8.4.31 deduped
+  ├─┬ postcss-load-config@4.0.1
+  │ ├── lilconfig@2.1.0 deduped
+  │ ├── postcss@8.4.31 deduped
+  │ ├── UNMET OPTIONAL DEPENDENCY ts-node@>=9.0.0
+  │ └── yaml@2.3.3
+  ├─┬ postcss-nested@6.0.1
+  │ ├── postcss-selector-parser@6.0.13 deduped
+  │ └── postcss@8.4.31 deduped
+  ├─┬ postcss-selector-parser@6.0.13
+  │ ├── cssesc@3.0.0
+  │ └── util-deprecate@1.0.2
+  ├── postcss@8.4.31 deduped
+  ├─┬ resolve@1.22.8
+  │ ├─┬ is-core-module@2.13.0
+  │ │ └── has@1.0.4
+  │ ├── path-parse@1.0.7
+  │ └── supports-preserve-symlinks-flag@1.0.0
+  └─┬ sucrase@3.34.0
+    ├─┬ @jridgewell/gen-mapping@0.3.3
+    │ ├── @jridgewell/set-array@1.1.2
+    │ ├── @jridgewell/sourcemap-codec@1.4.15
+    │ └── @jridgewell/trace-mapping@0.3.19
+    ├── commander@4.1.1
+    ├─┬ glob@7.1.6
+    │ ├── fs.realpath@1.0.0
+    │ ├── inflight@1.0.6
+    │ ├── inherits@2.0.4
+    │ ├── minimatch@3.1.2
+    │ ├── once@1.4.0
+    │ └── path-is-absolute@1.0.1
+    ├── lines-and-columns@1.2.4
+    ├─┬ mz@2.7.0
+    │ ├── any-promise@1.3.0
+    │ ├── object-assign@4.1.1
+    │ └── thenify-all@1.6.0
+    ├── pirates@4.0.6
+    └── ts-interface-checker@0.1.13
+
