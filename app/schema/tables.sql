@@ -22,6 +22,9 @@ create table car_details
     cd_type_id int,
     cd_mileage_miles float,
     cd_car_price float,
+    cd_year int,
+    cd_make text,
+    cd_model text,
     cd_body_style text,
     cd_doors text,
     cd_mpg text,
@@ -32,6 +35,7 @@ create table car_details
     cd_tank_size text,
     cd_bed_style text,
     cd_cab_style text,
+    cd_path_ text,
     primary key(cd_id),
     FOREIGN KEY (cd_type_id) REFERENCES car_types (car_type_id)
 );

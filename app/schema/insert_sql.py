@@ -22,15 +22,14 @@ def get_confg(path: str):
     return config
 
 def push_to_sql(data: pd.DataFrame, config: configparser.ConfigParser):
-    table = config['sql-table']['table_all_cars']
-    pk = config['sql-table']['table_all_cars_pk']
+    table = config['sql-table']['table_car_details']
+    pk = config['sql-table']['table_car_details_pk']
     df_columns = list(data)
     columns = ",".join(df_columns)
     values = "VALUES({})".format(",".join(["%s" for _ in df_columns]))
     updates = ','.join([col + '=excluded.' + col for col in df_columns])
     insert_stmt = "INSERT INTO {} ({}) {} ON CONFLICT ({}) DO UPDATE SET {}". \
         format(table, columns, values, pk, updates)
-    print(config['sql-prod'])
     conn = get_sql_conn(config['sql-prod'],
                         config.get('sql-prod', 'bi_db'))
     cur = conn.cursor()
@@ -44,7 +43,7 @@ def get_data(data_path):
     df = df[['make','model','year']]
     df['year'] = df.year.fillna(2023).astype(int)
     df = df.rename(columns={'model':'brand'})
-    df = df.drop_duplicates().reset_index(drop=True)
+    # df = df.drop_duplicates().reset_index(drop=True)
     df['id'] = df.index
     df.columns = ['car_' + i for i in df.columns]
     df = df[['car_id','car_make','car_brand','car_year']]
@@ -52,11 +51,22 @@ def get_data(data_path):
 
 def get_data_car_details(data_path):
     df = pd.read_excel(data_path)
+    df['year'] = df.year.fillna(2023).map(lambda x: int(x))
+    path_ = pd.read_csv('../../data/paths.csv')
+    df['make'] = df.make.map(lambda x: 'mercedes-benz' if x=='mercedes' else x)
+    df['model'] = df.model.map(lambda x: str(x).replace('benz ','' ))
+    df['make'] = df.make.map(lambda x: 'alfa-romeo' if x=='alfa' else x)
+    df['model'] = df.model.map(lambda x: str(x).replace('romeo ','' ))
+
+    df['search'] = df['make']+'_' + df.model.str.replace(' ','-').astype(str) + '_' + df.year.fillna(2023).astype(int).astype(str) 
+    df = df.reset_index(drop=True)
+    
+    df = pd.merge(df,path_[['search','path_']],on='search')
     df['id'] = df.index
-    df = df[['id','mileage_miles','price',
+    df = df[['id','mileage_miles','price','year','make','model',
        'Body Style', 'Doors', 'MPG', 
        'Engine', 'Transmission', 'Drive Type', 'Fuel', 'Tank Size',
-       'Bed Style', 'Cab Style']]
+       'Bed Style', 'Cab Style','path_']]
     
     df = df.rename(columns={'price':'car_price'})
     df.columns = ['cd_'+i.lower().replace(' ','_')  for i in df.columns]
@@ -89,7 +99,7 @@ def main(conf_path: str,data_path:str):
 
     config = get_confg(conf_path)
 
-    data = get_data(data_path)
+    data = get_data_car_details(data_path)
     push_to_sql(data, config)
     time_taken   = time.time() - start_time
     print('Time taken = {} s'.format(round(time_taken,1)))
