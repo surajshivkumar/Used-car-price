@@ -65,10 +65,6 @@ def results():
     else:
         # do something
         return render_template('results.html', val = results)
-    
-[
-
-]
 
 @app.route('/results-view')
 def results_view():
@@ -76,6 +72,7 @@ def results_view():
 
 @app.route('/sell',methods=['GET', 'POST'])
 def sell():    
+    print('first')
     conn = get_sql_conn(config['sql-prod'],
                         config.get('sql-prod', 'bi_db'))
     possibleSearches = pd.read_sql('''select ac.car_make,ac.car_brand,cd.cd_body_style from car_details cd left join all_cars ac on ac.car_id = cd.cd_id ''',conn)
@@ -83,16 +80,35 @@ def sell():
     possibleSearches = possibleSearches[possibleSearches.cd_body_style!='NaN']
     possibleSearchesCarType = possibleSearches.groupby(['cd_body_style']).agg(Makes = ('car_make',lambda x:list(set(x)))).to_dict()
     carTypes = list(possibleSearchesCarType.get('Makes').keys())
+    print('carTypes', carTypes)
+
+    model = ['test']
     if request.method == 'POST':
-        # carType = request.form.get('carType')
-        return render_template('sell.html', car_types=carTypes,car_make = ['BMW'], price=10)
-    
-    return render_template('sell.html', car_types=carTypes,car_make = [])
+        action = request.form.get('action')
+        print('action', action)
+        if action == 'getCarMake':
+            car_type = request.form.get('carType')
+            result_car_make = list(possibleSearchesCarType.get('Makes').get(car_type))
+            return jsonify(result_car_make)
+        
+        if action == 'getCarModel':
+            car_make = request.form.get('carMake')
+            car_type = request.form.get('carType')
+            print('check make, type', car_make, car_type)
+            possibleSearchesCarModel = possibleSearches[possibleSearches.cd_body_style == car_type].groupby(['car_make']).agg(models = ('car_brand',lambda x:list(set(x)))).to_dict().get('models').get(car_make)
+            print('Check == car_type\n: ', possibleSearches[possibleSearches.cd_body_style == car_type])
+            print('\n\npossibleSearches\n: ', possibleSearches)
+            print('possibleSearchesCarModel', possibleSearchesCarModel)
+            return jsonify(possibleSearchesCarModel)
+        
+        if action == 'getCarPrice':
+            return jsonify(price=10)
+        
+    return render_template('sell.html', car_types=carTypes)
     
 
 @app.route('/get_car_make/<car_type>')
 def get_car_make(car_type):
-
     if car_type in car_make_map:
         return jsonify(car_make_map[car_type])
     else:

@@ -29,7 +29,7 @@
     </style>
   </head>
   <body>
-    <nav class="h-16 z-50 sticky top-0" id="navbar">
+    <nav class="h-16 z-50 sticky top-0 bg-transparent" id="navbar">
       <div class="container h-full">
         <div class="h-full flex items-center justify-between px-2">
           <a
@@ -54,7 +54,7 @@
         </div>
       </div>
     </nav>
-    <div class="content h-full">{% block content %}{% endblock %}</div>
+    {% block content %}{% endblock %}
     <script>
       const elementToTrack = document.getElementById("navbar");
 
