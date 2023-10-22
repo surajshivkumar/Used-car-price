@@ -147,20 +147,19 @@
   }
 </style>
 <script>
-  // let carPrice = {{ price }};
   let carPrice;
-  console.log('cp', carPrice);
+  console.log("cp", carPrice);
   if (carPrice) {
-      let priceSection = document.getElementById("price-section");
-      priceSection.classList.add("flex");
-      priceSection.classList.add("justify-center");
-      priceSection.classList.add("items-center");
-      priceSection.classList.add("flex-col");
-      priceSection.classList.remove("hidden");
+    let priceSection = document.getElementById("price-section");
+    priceSection.classList.add("flex");
+    priceSection.classList.add("justify-center");
+    priceSection.classList.add("items-center");
+    priceSection.classList.add("flex-col");
+    priceSection.classList.remove("hidden");
 
-      priceSection.scrollIntoView({
-        behavior: 'smooth', // You can use 'auto' for an instant scroll
-        block: 'start'      // You can use 'center' or 'end' for different positions
+    priceSection.scrollIntoView({
+      behavior: "smooth", // You can use 'auto' for an instant scroll
+      block: "start", // You can use 'center' or 'end' for different positions
     });
 
     setTimeout(() => {
@@ -168,85 +167,85 @@
       let loading = document.getElementById("loading");
       price.classList.remove("hidden");
       loading.classList.add("hidden");
-    }, 3500)
+    }, 3500);
   }
-    let carTypeSelect = document.getElementById("carType");
-    let carMakeSelect = document.getElementById("carMake");
-    let carModelSelect = document.getElementById("carModel");
+  let carTypeSelect = document.getElementById("carType");
+  let carMakeSelect = document.getElementById("carMake");
+  let carModelSelect = document.getElementById("carModel");
 
-    // Event listener for carTypeSelect
-    carTypeSelect.addEventListener("change", function () {
-      let selectedCarType = carTypeSelect.value;
+  // Event listener for carTypeSelect
+  carTypeSelect.addEventListener("change", function () {
+    let selectedCarType = carTypeSelect.value;
 
-      // Clear and disable the carMakeSelect
-      carMakeSelect.innerHTML = "";
-      carMakeSelect.disabled = true;
+    // Clear and disable the carMakeSelect
+    carMakeSelect.innerHTML = "";
+    carMakeSelect.disabled = true;
 
-      if (selectedCarType) {
-        // Fetch car models from the backend based on the selected car type
-        fetch("/get_car_make/" + selectedCarType)
-          .then((response) => response.json())
-          .then((data) => {
-            let placeholderOption = document.createElement("option");
-            placeholderOption.value = "";
-            placeholderOption.textContent = "Please select";
-            placeholderOption.disabled = true;
-            placeholderOption.selected = true;
-            carMakeSelect.appendChild(placeholderOption);
+    if (selectedCarType) {
+      // Fetch car models from the backend based on the selected car type
+      fetch("/get_car_make/" + selectedCarType)
+        .then((response) => response.json())
+        .then((data) => {
+          let placeholderOption = document.createElement("option");
+          placeholderOption.value = "";
+          placeholderOption.textContent = "Please select";
+          placeholderOption.disabled = true;
+          placeholderOption.selected = true;
+          carMakeSelect.appendChild(placeholderOption);
 
-            data.forEach(function (carMake) {
-              let option = document.createElement("option");
-              option.value = carMake;
-              option.textContent = carMake;
-              carMakeSelect.appendChild(option);
-            });
+          data.forEach(function (carMake) {
+            let option = document.createElement("option");
+            option.value = carMake;
+            option.textContent = carMake;
+            carMakeSelect.appendChild(option);
+          });
 
-            carMakeSelect.disabled = false;
-          })
-          .catch((error) => console.error(error));
-      } else {
-        let placeholderOption = document.createElement("option");
-        placeholderOption.value = "";
-        placeholderOption.textContent = "Please select a car type first";
-        carMakeSelect.appendChild(placeholderOption);
-      }
-    });
+          carMakeSelect.disabled = false;
+        })
+        .catch((error) => console.error(error));
+    } else {
+      let placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.textContent = "Please select a car type first";
+      carMakeSelect.appendChild(placeholderOption);
+    }
+  });
 
-    carMakeSelect.addEventListener("change", function () {
-      let selectedCarMake = carMakeSelect.value;
+  carMakeSelect.addEventListener("change", function () {
+    let selectedCarMake = carMakeSelect.value;
 
-      // Clear and disable the carMakeSelect
-      carModelSelect.innerHTML = "";
-      carModelSelect.disabled = true;
+    // Clear and disable the carMakeSelect
+    carModelSelect.innerHTML = "";
+    carModelSelect.disabled = true;
 
-      if (selectedCarMake) {
-        // Fetch car models from the backend based on the selected car type
-        fetch("/get_car_model/" + selectedCarMake)
-          .then((response) => response.json())
-          .then((data) => {
-            let placeholderOption = document.createElement("option");
-            placeholderOption.value = "";
-            placeholderOption.textContent = "Please select";
-            placeholderOption.disabled = true;
-            placeholderOption.selected = true;
-            carModelSelect.appendChild(placeholderOption);
+    if (selectedCarMake) {
+      // Fetch car models from the backend based on the selected car type
+      fetch("/get_car_model/" + selectedCarMake)
+        .then((response) => response.json())
+        .then((data) => {
+          let placeholderOption = document.createElement("option");
+          placeholderOption.value = "";
+          placeholderOption.textContent = "Please select";
+          placeholderOption.disabled = true;
+          placeholderOption.selected = true;
+          carModelSelect.appendChild(placeholderOption);
 
-            data.forEach(function (carMake) {
-              let option = document.createElement("option");
-              option.value = carMake;
-              option.textContent = carMake;
-              carModelSelect.appendChild(option);
-            });
+          data.forEach(function (carMake) {
+            let option = document.createElement("option");
+            option.value = carMake;
+            option.textContent = carMake;
+            carModelSelect.appendChild(option);
+          });
 
-            carModelSelect.disabled = false;
-          })
-          .catch((error) => console.error(error));
-      } else {
-        let placeholderOption = document.createElement("option");
-        placeholderOption.value = "";
-        placeholderOption.textContent = "Please select a car make first";
-        carModelSelect.appendChild(placeholderOption);
-      }
-    });
+          carModelSelect.disabled = false;
+        })
+        .catch((error) => console.error(error));
+    } else {
+      let placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.textContent = "Please select a car make first";
+      carModelSelect.appendChild(placeholderOption);
+    }
+  });
 </script>
 {% endblock %}
