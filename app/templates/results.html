@@ -22,7 +22,9 @@ content %}
   </div>
 </div>
 <div class="flex h-full">
-  <div class="xl:w-2/12 w-3/12 h-full bg-gray-100 border-r border-r-gray-300">
+  <div
+    class="xl:w-2/12 w-3/12 h-full bg-gray-100 border-r border-r-gray-300 h-auto"
+  >
     <div class="border-l border-b border-gray-300">
       <div class="shadow border-b border-b-gray-300 px-2 w-full py-4 bg-white">
         <p class="font-semibold">MILAGE</p>
@@ -55,16 +57,20 @@ content %}
     >
       {% for car in results %}
       <a
-        class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
+        class="shadow-md rounded-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer"
         href="./results-view"
       >
+        <!-- src="../static//assets/results/{{car.path}}" -->
         <img
-          src="../static//assets/results/{{car.path}}"
+          src="https://storage.cloud.google.com/cdn-cloudstore/results/{{car.path}}"
           alt=""
-          class="w-full h-48 rounded-t-md"
+          class="w-full h-48 rounded-t-md object-cover aspect-[3/2]"
         />
         <div class="flex justify-between lg:p-4 p-2">
-          <h5 class="font-semibold text-center">{{car.year}}</h5>
+          <div>
+            <h5 class="font-semibold text-center">{{car.year}}</h5>
+            <h5 class="font-semibold text-center">{{car.name}}</h5>
+          </div>
           <h5 class="font-semibold">${{car.price}}</h5>
         </div>
       </a>

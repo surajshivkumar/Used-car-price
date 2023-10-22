@@ -36,7 +36,7 @@
               required
               id="carType"
               name="carType"
-              class="border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+              class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
               {% for car in car_types %}
@@ -51,7 +51,7 @@
               id="carMake"
               name="carMake"
               disabled
-              class="border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+              class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>
                 Please select a car type first
@@ -68,7 +68,7 @@
               id="carModel"
               name="carModel"
               disabled
-              class="border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+              class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>
                 Please select a car make first
@@ -83,7 +83,7 @@
               name="carMileage"
               id="carMileage"
               placeholder="Enter Mileage"
-              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
           </div>
 
@@ -94,7 +94,7 @@
               name="carColor"
               id="carColor"
               placeholder="Enter Color"
-              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
           </div>
 
@@ -105,7 +105,7 @@
               name="carYear"
               id="carYear"
               placeholder="Enter Year"
-              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-orange-600 focus-visible:outline-orange-600 hover:border-orange-600 h-9"
+              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
           </div>
         </div>
@@ -127,25 +127,57 @@
   class="hidden lg:py-24 py-12 w-full bg-orange-gradient h-[600px]"
 >
   <div id="loading" class="flex flex-col items-center">
-    <img src="../static/assets/loading.gif" alt="gif" class="w-64 h-48" />
+    <img
+      src="https://storage.cloud.google.com/cdn-cloudstore/loading.gif"
+      alt="gif"
+      class="w-64 h-48"
+    />
     <h4 class="pt-2 ml-8">Loading...</h4>
   </div>
 
   <h2 id="price" class="hidden">The price is {{carPrice}}</h2>
 </div>
+<!-- <select id="selectElement">
+  <option>Option 1</option>
+  <option>Option 2</option>
+  <option>Option 3</option>
+</select> -->
+<script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/slim-select@latest/dist/slimselect.css"
+/>
+<script type="module">
+  // import SlimSelect from "slim-select";
 
-<script>
   let carTypeSelect = document.getElementById("carType");
   let carMakeSelect = document.getElementById("carMake");
   let carModelSelect = document.getElementById("carModel");
+  let slimSelectType = new SlimSelect({
+    select: carTypeSelect,
+  });
+  let slimSelectMake = new SlimSelect({
+    select: carMakeSelect,
+  });
+  let slimSelectModel = new SlimSelect({
+    select: carModelSelect,
+  });
+
+  console.log("getData", slimSelectType.getData());
 
   let selectedCarType;
+  let selectedCarMake;
+  let selectedCarModel;
+  carModelSelect.addEventListener("change", function () {
+    selectedCarModel = carModelSelect.value;
+  });
 
   document.addEventListener("DOMContentLoaded", function () {
     formSubmitListener();
   });
-  carTypeSelectListener();
-  carMakeSelectListener();
+
+  onSelectChange(carTypeSelect, "getCarMake");
+  onSelectChange(carMakeSelect, "getCarModel");
 
   function formSubmitListener() {
     const form = document.getElementById("form");
@@ -186,96 +218,78 @@
       });
     }
   }
-  function carTypeSelectListener() {
-    // Event listener for carTypeSelect
-    carTypeSelect.addEventListener("change", function () {
-      selectedCarType = carTypeSelect.value;
 
-      // Clear and disable the carMakeSelect
-      carMakeSelect.innerHTML = "";
-      carMakeSelect.disabled = true;
+  function onSelectChange(typeChanged, action) {
+    typeChanged.addEventListener("change", function () {
+      let selectedValue = typeChanged.value;
+      let nextSelect =
+        action === "getCarMake" ? slimSelectMake : slimSelectModel;
 
-      if (selectedCarType) {
-        // Fetch car models from the backend based on the selected car type
+      nextSelect.innerHTML = "";
+      resetSelect(nextSelect);
+      nextSelect.disable();
+      let payload = {};
+      if (action === "getCarMake") {
+        selectedCarType = selectedValue;
+        carModelSelect.innerHTML = "";
+        // resetSelect(slimSelectModel);
+      }
+      if (action === "getCarModel") {
+        payload["carMake"] = selectedValue;
+      }
+      payload["carType"] = selectedCarType;
+
+      if (selectedValue) {
         const formData = new FormData();
-        formData.append("action", "getCarMake");
-        formData.append("carType", selectedCarType);
+        formData.append("action", action);
+        formData.append("carType", payload.carType);
+        if (action === "getCarModel") {
+          formData.append("carMake", payload.carMake);
+        }
         fetch("/sell", {
           method: "POST",
           body: formData,
         })
-          .then((response) => response.json()) // Parse the JSON response
+          .then((response) => response.json())
           .then((data) => {
-            console.log(data);
-            let placeholderOption = document.createElement("option");
-            placeholderOption.value = "";
-            placeholderOption.textContent = "Please select";
-            placeholderOption.disabled = true;
-            placeholderOption.selected = true;
-            carMakeSelect.appendChild(placeholderOption);
+            let tempArr = [];
+            let placeholder = document.createElement("option");
+            placeholder.value = "";
+            placeholder.textContent = "Please select";
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            tempArr.push(placeholder);
 
-            data.forEach(function (carMake) {
+            data.forEach((ele) => {
               let option = document.createElement("option");
-              option.value = carMake;
-              option.textContent = carMake;
-              carMakeSelect.appendChild(option);
+              option.value = ele;
+              option.textContent = toTitleCase(ele);
+              tempArr.push(option);
             });
-
-            carMakeSelect.disabled = false;
+            nextSelect.setData(tempArr);
+            nextSelect.enable();
           })
           .catch((error) => console.error(error));
-      } else {
-        let placeholderOption = document.createElement("option");
-        placeholderOption.value = "";
-        placeholderOption.textContent = "Please select a car type first";
-        carMakeSelect.appendChild(placeholderOption);
       }
     });
   }
-  function carMakeSelectListener() {
-    carMakeSelect.addEventListener("change", function () {
-      let selectedCarMake = carMakeSelect.value;
 
-      // Clear and disable the carMakeSelect
-      carModelSelect.innerHTML = "";
-      carModelSelect.disabled = true;
+  function resetSelect(slimSelect) {
+    let placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Please select a car type first";
+    slimSelect.setData(placeholder);
+  }
 
-      if (selectedCarMake) {
-        // Fetch car models from the backend based on the selected car make
-        const formData = new FormData();
-        formData.append("action", "getCarModel");
-        formData.append("carType", selectedCarType);
-        formData.append("carMake", selectedCarMake);
-        fetch("/sell", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.json()) // Parse the JSON response
-          .then((data) => {
-            let placeholderOption = document.createElement("option");
-            placeholderOption.value = "";
-            placeholderOption.textContent = "Please select";
-            placeholderOption.disabled = true;
-            placeholderOption.selected = true;
-            carModelSelect.appendChild(placeholderOption);
-
-            data.forEach(function (carMake) {
-              let option = document.createElement("option");
-              option.value = carMake;
-              option.textContent = carMake;
-              carModelSelect.appendChild(option);
-            });
-
-            carModelSelect.disabled = false;
-          })
-          .catch((error) => console.error(error));
-      } else {
-        let placeholderOption = document.createElement("option");
-        placeholderOption.value = "";
-        placeholderOption.textContent = "Please select a car make first";
-        carModelSelect.appendChild(placeholderOption);
+  function toTitleCase(inputString) {
+    const words = inputString.split(" ");
+    const titleCaseWords = words.map((word) => {
+      if (word.length === 0) {
+        return ""; // Handle empty words (e.g., multiple spaces)
       }
+      return word[0].toUpperCase() + word.slice(1).toLowerCase();
     });
+    return titleCaseWords.join(" ");
   }
 </script>
 

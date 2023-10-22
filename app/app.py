@@ -54,6 +54,11 @@ def results():
     searchResult['search'] = searchTerm
     searchResult['path'] = searchResult.path
     searchResult = [term for term in searchResult.T.to_dict().values()]
+
+    for car in searchResult:
+        path_parts = car['path'].split('.')
+        new_path = path_parts[0] + '.webp'
+        car['path'] = new_path
     print('CHECK ->', searchResult)
     # do something
     return render_template('results.html', searchTerm=searchTerm, results=searchResult)
@@ -119,3 +124,4 @@ def get_car_model(car_make):
 
 if __name__ == "__main__":
 	app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
