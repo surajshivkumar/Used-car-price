@@ -42,13 +42,12 @@ def results():
     conn = get_sql_conn(config['sql-prod'],
                     config.get('sql-prod', 'bi_db'))
     searchResult = pd.read_sql('''select cd_mileage_miles as mileage,
-                                            car_year as Year,
-                                            car_make as Make,
+                                            cd_year as Year,
+                                            cd_make as Make,
                                             cd_car_price as Price,
                                             cd_path_ as path
                                     from car_details cd 
-                                    left join all_cars ac on ac.car_id = cd.cd_id
-                                    where upper(ac.car_make) = '{make}' and upper(ac.car_brand) = '{brand}' '''.format(make = searchTerm.split(' ')[0].upper(), 
+                                    where upper(cd_make) = '{make}' and upper(cd_model) = '{brand}' '''.format(make = searchTerm.split(' ')[0].upper(), 
                                                                                                                     brand= ' '.join(searchTerm.split(' ')[1:]).upper() ),conn)
     conn.close()
     print(searchResult)
