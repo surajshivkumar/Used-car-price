@@ -45,27 +45,22 @@ def results():
                                             cd_year as Year,
                                             cd_make as Make,
                                             cd_car_price as Price,
-                                            cd_path_ as path
+                                            cd_path_ as path,
+                                            cd_model as Model
                                     from car_details cd 
                                     where upper(cd_make) = '{make}' and upper(cd_model) = '{brand}' '''.format(make = searchTerm.split(' ')[0].upper(), 
                                                                                                                     brand= ' '.join(searchTerm.split(' ')[1:]).upper() ),conn)
     conn.close()
-    print(searchResult)
+    print(searchResult.columns)
+    searchResult = searchResult.drop_duplicates(['make','year','model'])
     searchResult['search'] = searchTerm
     searchResult['path'] = searchResult.path
+    searchResult = searchResult.sort_values(['mileage'],ascending=True)
+    searchResult['path'] = searchResult.path.apply(lambda car: car.split('.')[0] + '.webp')
     searchResult = [term for term in searchResult.T.to_dict().values()]
-
-    for car in searchResult:
-        path_parts = car['path'].split('.')
-        new_path = path_parts[0] + '.webp'
-        car['path'] = new_path
-    print('CHECK ->', searchResult)
-    # do something
+    
     return render_template('results.html', searchTerm=searchTerm, results=searchResult)
 
-    # else:
-    #     # do something
-    #     return render_template('results.html', val = results)
 
 @app.route('/results-view')
 def results_view():
