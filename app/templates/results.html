@@ -5,7 +5,7 @@ content %}
 >
   <p class="pl-2">Search</p>
   <div class="autoComplete_wrapper w-full pt-2">
-    <form class="w-full" action="/recommend" method="POST" id="myForm">
+    <form class="w-full" action="/results" method="POST" id="myForm">
       <input
         class="!w-full"
         id="autoComplete"
@@ -18,13 +18,12 @@ content %}
         name="search-term"
         value=""
       />
+      <input type="hidden" name="type" value="search" />
     </form>
   </div>
 </div>
 <div class="flex h-full">
-  <div
-    class="xl:w-2/12 w-3/12 h-full bg-gray-100 border-r border-r-gray-300 h-auto"
-  >
+  <div class="xl:w-2/12 w-3/12 bg-gray-100 border-r border-r-gray-300 h-auto">
     <div class="border-l border-b border-gray-300">
       <div class="shadow border-b border-b-gray-300 px-2 w-full py-4 bg-white">
         <p class="font-semibold">MILAGE</p>
@@ -60,7 +59,6 @@ content %}
         class="shadow-md rounded-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer"
         href="./results-view"
       >
-        <!-- src="../static//assets/results/{{car.path}}" -->
         <img
           src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
           alt=""
@@ -79,11 +77,8 @@ content %}
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/autoComplete.min.js"></script>
 <script>
-  let flaskData;
-  console.log("flaskData", flaskData);
-  // console.log("check results =>", results);
+  let allCarsList = {{allCars|tojson}};
 
   const autoCompleteJS = new autoComplete({
     selector: "#autoComplete",
@@ -91,12 +86,7 @@ content %}
     searchEngine: "strict",
     threshold: 2,
     data: {
-      // src: flaskData,
-      src: [
-        "Sauce - Thousand Island",
-        "Wild Boar - Tenderloin",
-        "Goat - Whole Cut",
-      ],
+      src: allCarsList,
       cache: true,
     },
     resultsList: {

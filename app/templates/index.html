@@ -47,119 +47,31 @@
         name="search-term"
         value=""
       />
-      <input type="hidden" name="type" value="vehicleType" />
+      <input type="hidden" name="type" value="carType" />
     </form>
     <div class="grid grid-cols-4 lg:gap-6 gap-3 lg:pt-12 pt-6">
+      {% for car in carTypes %}
       <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#B8B3BB] hover:scale-105 transition-transform"
+        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group bg-{{car.key}} hover:scale-105 transition-transform"
         href="javascript:void(0);"
-        onclick="submitForm('pickup')"
+        onclick="submitForm('{{ car.key }}')"
       >
         <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/pickup.webp"
+          src="https://storage.googleapis.com/cdn-cloudstore/buy/{{car.key}}.webp"
           alt=""
           class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
         />
         <p class="text-center pt-2 group-hover:text-white font-semibold">
-          Pickups
+          {{car.value}}
         </p>
       </a>
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#FBB317] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('suv')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/SUV.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 group-hover:text-white font-semibold">SUV</p>
-      </a>
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#033178] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('hatchback')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/hatchback.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 group-hover:text-white font-semibold">
-          Hatchback
-        </p>
-      </a>
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#DEDBDB] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('coupe')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/coupe.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 font-semibold">Coupe</p>
-      </a>
-
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#F1F1F1] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('sedan')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/sedan.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 font-semibold">Sedan</p>
-      </a>
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#FFE6CD] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('convertible')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/convertible.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 font-semibold">Convertible</p>
-      </a>
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#F86E7D] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('minivan')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/Minivan.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 group-hover:text-white font-semibold">
-          Minivan
-        </p>
-      </a>
-      <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group hover:bg-[#F1EAA8] hover:scale-105 transition-transform"
-        href="javascript:void(0);"
-        onclick="submitForm('wagon')"
-      >
-        <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/wagon.webp"
-          alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
-        />
-        <p class="text-center pt-2 font-semibold">Wagon</p>
-      </a>
+      {% endfor %}
     </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.5/dist/autoComplete.min.js"></script>
 <script>
-  let flaskData = {{ val|tojson }}
+  let flaskData = {{ allCars|tojson }};
 
   const autoCompleteJS = new autoComplete({
     selector: "#autoComplete",
@@ -187,7 +99,6 @@
     events: {
       input: {
         selection: (event) => {
-          console.log("HELLO");
           const selection = event.detail.selection.value;
           autoCompleteJS.input.value = selection;
           document.getElementById("myForm").submit();
@@ -197,6 +108,7 @@
   });
 
   function submitForm(type) {
+    console.log(type);
     document.getElementById("search-term-by-type").value = type;
     document.getElementById("hiddenForm").submit();
   }

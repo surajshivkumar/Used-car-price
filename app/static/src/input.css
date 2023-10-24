@@ -30,3 +30,35 @@
     rgb(241, 246, 245) 75%
   );
 }
+
+.bg-pickups:hover {
+  background-color: #b8b3bb;
+}
+
+.bg-suv:hover {
+  background-color: #fbb317;
+}
+
+.bg-hatchback:hover {
+  background-color: #033178;
+}
+
+.bg-coupe:hover {
+  background-color: #dedbdb;
+}
+
+.bg-sedan:hover {
+  background-color: #f1f1f1;
+}
+
+.bg-convertible:hover {
+  background-color: #ffe6cd;
+}
+
+.bg-minivan:hover {
+  background-color: #f86e7d;
+}
+
+.bg-wagon:hover {
+  background-color: #f1eaa8;
+}
