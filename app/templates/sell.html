@@ -1,8 +1,8 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+{% extends "base.html" %} {% block title %}Sell{% endblock %} {% block content
 %}
 <div class="top-section overflow-hidden">
   <div
-    class="container h-full flex items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
+    class="container h-full flex lg:flex-row flex-col items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
   >
     <div class="lg:w-7/12 w-full">
       <h1 class="mb-3">
@@ -39,7 +39,7 @@
               class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
-              {% for car in car_types %}
+              {% for car in carTypes %}
               <option value="{{ car }}">{{ car }}</option>
               {% endfor %}
             </select>
@@ -137,19 +137,12 @@
 
   <h2 id="price" class="hidden">The price is {{carPrice}}</h2>
 </div>
-<!-- <select id="selectElement">
-  <option>Option 1</option>
-  <option>Option 2</option>
-  <option>Option 3</option>
-</select> -->
 <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
 <link
   rel="stylesheet"
   href="https://unpkg.com/slim-select@latest/dist/slimselect.css"
 />
 <script type="module">
-  // import SlimSelect from "slim-select";
-
   let carTypeSelect = document.getElementById("carType");
   let carMakeSelect = document.getElementById("carMake");
   let carModelSelect = document.getElementById("carModel");
@@ -162,8 +155,6 @@
   let slimSelectModel = new SlimSelect({
     select: carModelSelect,
   });
-
-  console.log("getData", slimSelectType.getData());
 
   let selectedCarType;
   let selectedCarMake;
@@ -183,18 +174,15 @@
     const form = document.getElementById("form");
     if (form) {
       form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
         const formData = new FormData(form);
         fetch("/sell", {
           method: "POST",
-          body: formData, // You can pass the form data
+          body: formData,
         })
-          .then((response) => response.json()) // Parse the JSON response
+          .then((response) => response.json())
           .then((data) => {
-            console.log(data);
-            let carPrice = data.price;
-
-            if (carPrice) {
+            if (data.price) {
               let priceSection = document.getElementById("price-section");
               priceSection.classList.add("flex");
               priceSection.classList.add("justify-center");
@@ -203,8 +191,8 @@
               priceSection.classList.remove("hidden");
 
               priceSection.scrollIntoView({
-                behavior: "smooth", // You can use 'auto' for an instant scroll
-                block: "start", // You can use 'center' or 'end' for different positions
+                behavior: "smooth",
+                block: "start",
               });
 
               setTimeout(() => {
