@@ -1,10 +1,19 @@
-from flask import Flask , render_template,request,jsonify
 import pandas as pd
-from utils import get_sql_conn,get_confg
+from flask import Flask, jsonify, render_template, request
+
+from utils import get_confg, get_sql_conn
+
+import warnings
+
+# Ignore all warnings
+warnings.filterwarnings("ignore")
+
+
 app = Flask(__name__)
 config_path = '../app/schema/app.conf'
 config = get_confg(config_path)
 
+<<<<<<< Updated upstream
 carTypesView = [
     {
         'key': 'pickups',
@@ -41,10 +50,20 @@ carTypesView = [
 ]
 
 def getAllCars() -> list:
+=======
+@app.route("/",methods=['GET', 'POST'])
+def hello_world():
+>>>>>>> Stashed changes
     conn = get_sql_conn(config['sql-prod'],
                         config.get('sql-prod', 'bi_db'))
     cars = pd.read_sql('''select distinct concat(car_make,' ',car_brand) as cars from all_cars''',conn)
     conn.close()
+<<<<<<< Updated upstream
+=======
+    if request.method == 'POST':
+        search_term = request.form.get('search-term')
+        return render_template('results.html', val = search_term)
+>>>>>>> Stashed changes
 
     cars['cars'] = cars.apply(lambda x: x.str.title())
     return cars.values.ravel().tolist()
@@ -53,6 +72,7 @@ def getSearchResult(searchTerm: str) -> list:
     res = []
     conn = get_sql_conn(config['sql-prod'],
                     config.get('sql-prod', 'bi_db'))
+<<<<<<< Updated upstream
     res = pd.read_sql('''select cd_mileage_miles as mileage,
                                             cd_year as Year,
                                             cd_make as Make,
@@ -62,6 +82,23 @@ def getSearchResult(searchTerm: str) -> list:
                                     from car_details cd 
                                     where upper(cd_make) = '{make}' and upper(cd_model) = '{brand}' '''.format(make = searchTerm.split(' ')[0].upper(), 
                                                                                                                     brand= ' '.join(searchTerm.split(' ')[1:]).upper() ),conn)
+=======
+    searchResult = pd.read_sql('''
+                               select   cd_mileage_miles as mileage,
+                                        cd_year as Year,
+                                        cd_make as Make,
+                                        cd_car_price as Price,
+                                        cd_path_ as path,
+                                        cd_model as Model
+                                from    car_details cd 
+                                where   upper(cd_make) = '{make}' and upper(cd_model) = '{brand}' 
+                                '''.format(
+                                    make = searchTerm.split(' ')[0].upper(),
+                                    brand= ' '.join(searchTerm.split(' ')[1:]).upper() 
+                                          )
+                                ,conn
+                                )
+>>>>>>> Stashed changes
     conn.close()
     return res
 
@@ -104,7 +141,13 @@ def results_view():
 def sell():    
     conn = get_sql_conn(config['sql-prod'],
                         config.get('sql-prod', 'bi_db'))
-    possibleSearches = pd.read_sql('''select cd.cd_make as car_make,cd.cd_model as car_brand,cd.cd_body_style from car_details cd''',conn)
+    possibleSearches = pd.read_sql('''
+                                   select   cd.cd_make as car_make,
+                                            cd.cd_model as car_brand,
+                                            cd.cd_body_style 
+                                    from    car_details cd
+                                    ''', conn
+                                   )
     conn.close()
     possibleSearches = possibleSearches[possibleSearches.cd_body_style!='NaN']
     possibleSearchesCarType = possibleSearches.groupby(['cd_body_style']).agg(Makes = ('car_make',lambda x:list(set(x)))).to_dict()
@@ -126,7 +169,26 @@ def sell():
         if action == 'getCarPrice':
             return jsonify(price=10)
         
+<<<<<<< Updated upstream
     return render_template('sell.html', carTypes=carTypes)
+=======
+    return render_template('sell.html', car_types=carTypes)
+    
+
+# @app.route('/get_car_make/<car_type>')
+# def get_car_make(car_type):
+#     if car_type in car_make_map:
+#         return jsonify(car_make_map[car_type])
+#     else:
+#         return jsonify([])
+
+# @app.route('/get_car_model/<car_make>')
+# def get_car_model(car_make):
+#     if car_make in car_model_map:
+#         return jsonify(car_model_map[car_make])
+#     else:
+#         return jsonify([])
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
 	app.run(debug=True)

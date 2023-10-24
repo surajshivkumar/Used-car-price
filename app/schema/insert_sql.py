@@ -1,42 +1,7 @@
-import configparser
-import psycopg2
-import psycopg2.extras
 import sys
 import time
-import os
 import pandas as pd 
-
-def get_sql_conn(sql_conf: configparser.SectionProxy, dbname: str = None):
-    if dbname is None:
-        dbname = sql_conf.get('dbname')
-    prodution_db = psycopg2. \
-        connect(host=sql_conf['host'],
-                database=sql_conf['dbname'],
-                user=sql_conf['user'],
-                password=sql_conf['password'])
-    return prodution_db
-
-def get_confg(path: str):
-    config = configparser.ConfigParser()
-    _ = config.read(path)
-    return config
-
-def push_to_sql(data: pd.DataFrame, config: configparser.ConfigParser):
-    table = config['sql-table']['table_car_details']
-    pk = config['sql-table']['table_car_details_pk']
-    df_columns = list(data)
-    columns = ",".join(df_columns)
-    values = "VALUES({})".format(",".join(["%s" for _ in df_columns]))
-    updates = ','.join([col + '=excluded.' + col for col in df_columns])
-    insert_stmt = "INSERT INTO {} ({}) {} ON CONFLICT ({}) DO UPDATE SET {}". \
-        format(table, columns, values, pk, updates)
-    conn = get_sql_conn(config['sql-prod'],
-                        config.get('sql-prod', 'bi_db'))
-    cur = conn.cursor()
-    psycopg2.extras.execute_batch(cur, insert_stmt, data.values)
-    conn.commit()
-    cur.close()
-    conn.close()
+from sql_connect import Connections
 
 def get_data(data_path):
     df = pd.read_excel(data_path)
@@ -97,15 +62,14 @@ def main(conf_path: str,data_path:str):
     if conf_path is None:
         raise ValueError("Arguments missing: conf_path: str, date:str")
 
-    config = get_confg(conf_path)
+    conn = Connections(conf_path)
+
+    config = conn.get_confg()
 
     data = get_data_car_details(data_path)
-    push_to_sql(data, config)
+    conn.push_to_sql(data, config,table='table_car_details',primary_key = 'table_car_details_pk')
     time_taken   = time.time() - start_time
     print('Time taken = {} s'.format(round(time_taken,1)))
 
-#/Users/suraj/Documents/used_car/app/data/Cars.csv
-#app/data/Cars.csv
-#app/data/Cars.csv
 if __name__ == '__main__':
     main(*sys.argv[1:])
