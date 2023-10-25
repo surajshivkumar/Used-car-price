@@ -51,13 +51,17 @@ content %}
   </div>
   <div class="xl:w-10/12 w-9/12 p-4">
     <p>Showing results for {{searchTerm}}</p>
+    <form action="/results-view" method="POST" id="hiddenForm">
+      <input type="hidden" id="product-id" name="productId" value="" />
+    </form>
     <div
       class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-3 lg:pt-12 pt-6"
     >
       {% for car in results %}
       <a
         class="shadow-md rounded-md hover:shadow-lg hover:scale-105 transition-transform cursor-pointer"
-        href="./results-view"
+        href="javascript:void(0);"
+        onclick="submitForm('{{ car.product_id }}')"
       >
         <img
           src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
@@ -114,6 +118,11 @@ content %}
       },
     },
   });
+
+  function submitForm(productId) {
+    document.getElementById("product-id").value = productId;
+    document.getElementById("hiddenForm").submit();
+  }
 </script>
 <style>
   .shadow {
