@@ -4,15 +4,15 @@ content %}
   <div class="lg:py-24 py-12 flex flex-col justify-center items-center">
     <div class="container">
       <img
-        src="../static/assets/results-view.jpeg"
+        src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
         alt=""
         class="w-full h-[600px] rounded-lg object-cover"
       />
       <div
         class="w-full flex justify-between lg:p-4 p-2 bg-white shadow-lg rounded-md mt-6"
       >
-        <h5 class="font-semibold text-center">2022 Ford Maverick</h5>
-        <h5 class="font-semibold">$25.52</h5>
+        <h5 class="font-semibold text-center">{{car.year}} {{car.name}}</h5>
+        <h5 class="font-semibold">${{car.price}}</h5>
       </div>
     </div>
   </div>
