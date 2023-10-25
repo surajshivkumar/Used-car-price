@@ -1,7 +1,8 @@
 import pandas as pd
 from flask import Flask, jsonify, render_template, request
 
-from utils import get_confg, get_sql_conn,carviews
+from utils import get_confg, get_sql_conn, carviews
+from searches import Search
 
 import warnings
 
@@ -13,62 +14,12 @@ app = Flask(__name__)
 config_path = '../app/schema/app.conf'
 config = get_confg(config_path)
 
-
+search = Search(config=config)
 carTypesView = carviews()
-def getAllCars() -> list:
-    conn = get_sql_conn(config['sql-prod'],
-                        config.get('sql-prod', 'bi_db'))
-    cars = pd.read_sql('''select distinct concat(car_make,' ',car_brand) as cars from all_cars''',conn)
-    conn.close()
-    cars['cars'] = cars.apply(lambda x: x.str.title())
-    return cars.values.ravel().tolist()
-
-def getSearchResult(searchTerm: str,searchType:str) -> list:
-    res = []
-    conn = get_sql_conn(config['sql-prod'],
-                    config.get('sql-prod', 'bi_db'))
-    if searchType == 'search':
-        res = pd.read_sql('''select cd_id as product_id,
-                                    cd_mileage_miles as mileage,
-                                    cd_year as Year,
-                                    cd_make as Make,
-                                    cd_car_price as Price,
-                                    cd_path_ as path,
-                                    cd_model as Model
-                            from car_details cd 
-                            where upper(cd_make) = '{make}' and upper(cd_model) = '{brand}' '''.format(make = searchTerm.split(' ')[0].upper(),
-                                                                                                                   brand= ' '.join(searchTerm.split(' ')[1:]).upper() ),conn)
-    else:
-        res = pd.read_sql('''select cd_mileage_miles as mileage,
-                                                cd_year as Year,
-                                                cd_make as Make,
-                                                cd_car_price as Price,
-                                                cd_path_ as path,
-                                                cd_model as Model
-                                        from car_details cd 
-                                        where cd_body_style = '{cartype}' '''.format(cartype=searchTerm),conn)
- 
-    conn.close()
-    return res
-
-def processSearch(searchResult,searchTerm:str):
-    searchResult = searchResult.drop_duplicates(['make','year','model'])
-    searchResult['search'] = searchTerm
-    searchResult['path'] = searchResult.path
-    searchResult = searchResult.sort_values(['mileage'],ascending=True)
-    searchResult['path'] = searchResult.path.apply(lambda car: car.split('.')[0] + '.webp')
-    searchResult = [term for term in searchResult.T.to_dict().values()]
-
-    for car in searchResult:
-        path_parts = car['path'].split('.')
-        new_path = path_parts[0] + '.webp'
-        car['path'] = new_path
-    return searchResult
-    
 
 @app.route("/",methods=['GET', 'POST'])
 def home():
-    allCars = getAllCars()
+    allCars = search.getAllCars()
     return render_template('index.html', allCars = allCars, carTypes = carTypesView)
 
 @app.route("/results",methods=['POST'])
@@ -77,16 +28,16 @@ def results():
         searchTerm = request.form.get('search-term')
         searchType = request.form.get('type')
         if (searchType == 'search'):
-            searchResult = getSearchResult(searchTerm= searchTerm,searchType=searchType)
-            searchResult = processSearch(searchResult = searchResult,searchTerm = searchTerm)
-            allCars = getAllCars()
+            searchResult = search.getSearchResult(searchTerm=searchTerm,searchType=searchType)
+            searchResult = search.processSearch(searchResult = searchResult,searchTerm = searchTerm)
+            allCars = search.getAllCars()
             return render_template('results.html', searchTerm=searchTerm, results=searchResult, allCars=allCars)
 
         if (searchType == 'carType'):
             # searchTerm = searchTerm.upper() if searchTerm=='suv' else searchTerm.title()
-            searchResult = getSearchResult(searchTerm=searchTerm,searchType=searchType)
-            searchResult = processSearch(searchResult = searchResult,searchTerm = searchTerm)
-            allCars = getAllCars()
+            searchResult = search.getSearchResult(searchTerm=searchTerm,searchType=searchType)
+            searchResult = search.processSearch(searchResult = searchResult,searchTerm = searchTerm)
+            allCars = search.getAllCars()
             # handle when carType is searched
             return render_template('results.html', searchTerm=searchTerm,results=searchResult, allCars=allCars)
 
@@ -94,19 +45,8 @@ def results():
 def results_view():
     if request.method == 'POST':
         product_id = request.form.get('productId')
-        conn = get_sql_conn(config['sql-prod'],
-                    config.get('sql-prod', 'bi_db'))
-        car = pd.read_sql('''select * from car_details where cd_id = {carid} '''.format(carid=product_id),conn)
-        car.columns = [col.replace('cd_','') for col in car.columns]
-        car = car[['mileage_miles', 'car_price', 'year', 'make', 'model',
-                   'body_style', 'doors', 'mpg', 'engine', 'transmission', 'drive_type',
-                   'fuel', 'tank_size', 'bed_style', 'cab_style', 'path_']]
-        car = car.rename(columns={'mileage_miles':'mileage',
-                                  'car_price':'price',
-                                  'path_':'path'
-                                  })
-        car['path'] = car['path'].map(lambda x:x.split('.')[0] + '.webp')
-        car = car.T.to_dict()[0]
+        car = search.getProduct(product_id)
+        car = search.processResultsView(car)
         return render_template('results-view.html', car=car)
 
 @app.route('/sell',methods=['GET', 'POST'])
