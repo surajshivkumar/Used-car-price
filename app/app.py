@@ -20,7 +20,6 @@ def getAllCars() -> list:
                         config.get('sql-prod', 'bi_db'))
     cars = pd.read_sql('''select distinct concat(car_make,' ',car_brand) as cars from all_cars''',conn)
     conn.close()
-
     cars['cars'] = cars.apply(lambda x: x.str.title())
     return cars.values.ravel().tolist()
 
