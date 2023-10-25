@@ -20,7 +20,6 @@ def getAllCars() -> list:
                         config.get('sql-prod', 'bi_db'))
     cars = pd.read_sql('''select distinct concat(car_make,' ',car_brand) as cars from all_cars''',conn)
     conn.close()
-
     cars['cars'] = cars.apply(lambda x: x.str.title())
     return cars.values.ravel().tolist()
 
@@ -91,15 +90,16 @@ def results():
             # handle when carType is searched
             return render_template('results.html', searchTerm=searchTerm,results=searchResult, allCars=allCars)
 
-@app.route('/results-view')
+@app.route('/results-view', methods=['POST'])
 def results_view():
-    #if request.method == 'POST':
-    product_id = 822
-    conn = get_sql_conn(config['sql-prod'],
-                config.get('sql-prod', 'bi_db'))
-    cars = pd.read_sql('''select * from car_details where cd_id = {carid} '''.format(carid=product_id),conn)
-    print(cars.columns)
-    return render_template('results-view.html')
+    if request.method == 'POST':
+        product_id = request.form.get('productId')
+        conn = get_sql_conn(config['sql-prod'],
+                    config.get('sql-prod', 'bi_db'))
+        car = pd.read_sql('''select * from car_details where cd_id = {carid} '''.format(carid=product_id),conn)
+        car['cd_path_'] = car['cd_path_'].map(lambda x:x.split('.')[0] + '.webp')
+        car = car.T.to_dict()
+        return render_template('results-view.html', car=car[0])
 
 @app.route('/sell',methods=['GET', 'POST'])
 def sell():    
