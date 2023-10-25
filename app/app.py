@@ -97,9 +97,17 @@ def results_view():
         conn = get_sql_conn(config['sql-prod'],
                     config.get('sql-prod', 'bi_db'))
         car = pd.read_sql('''select * from car_details where cd_id = {carid} '''.format(carid=product_id),conn)
-        car['cd_path_'] = car['cd_path_'].map(lambda x:x.split('.')[0] + '.webp')
-        car = car.T.to_dict()
-        return render_template('results-view.html', car=car[0])
+        car.columns = [col.replace('cd_','') for col in car.columns]
+        car = car[['mileage_miles', 'car_price', 'year', 'make', 'model',
+                   'body_style', 'doors', 'mpg', 'engine', 'transmission', 'drive_type',
+                   'fuel', 'tank_size', 'bed_style', 'cab_style', 'path_']]
+        car = car.rename(columns={'mileage_miles':'mileage',
+                                  'car_price':'price',
+                                  'path_':'path'
+                                  })
+        car['path'] = car['path'].map(lambda x:x.split('.')[0] + '.webp')
+        car = car.T.to_dict()[0]
+        return render_template('results-view.html', car=car)
 
 @app.route('/sell',methods=['GET', 'POST'])
 def sell():    
