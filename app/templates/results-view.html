@@ -1,47 +1,126 @@
 {% extends "base.html" %} {% block title %}Results View{% endblock %} {% block
 content %}
 <div>
-  <div class="lg:py-24 py-12 flex flex-col justify-center items-center">
+  <div
+    class="lg:py-24 py-12 flex flex-col justify-center items-center bg-orange-gradient"
+  >
     <div class="container">
-      <img
-        src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
-        alt=""
-        class="w-full h-[600px] rounded-lg object-cover"
-      />
+      <div class="overflow-hidden group max-h-[600px] rounded-lg">
+        <img
+          src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
+          alt=""
+          class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-500"
+        />
+      </div>
+
       <div
-        class="w-full flex justify-between lg:p-4 p-2 bg-white shadow-lg rounded-md mt-6"
+        class="flex lg:flex-row flex-col lg:gap-4 gap-2 items-center lg:p-6 p-3 bg-white shadow-lg rounded-md mt-6"
       >
-        <h5 class="font-semibold text-center">{{car.year}} {{car.name}}</h5>
-        <h5 class="font-semibold">${{car.price}}</h5>
+        <div class="w-full lg:border-r lg:pr-4">
+          <div class="flex flex-wrap lg:gap-4 gap-2 justify-between">
+            <h4 class="font-semibold text-center">
+              {{car.year}} {{car.make|title}} {{car.model|title}}
+            </h4>
+            <h4 class="font-semibold">${{car.price|int}}</h4>
+          </div>
+          <div class="pt-4">
+            <p class="text-gray-500">
+              {{ car.tank_size if car.tank_size != 'NaN' }} {{car.engine if
+              car.engine != 'NaN'}} {{car.fuel if car.fuel != 'NaN'}}
+              {{car.drive_type|upper if car.drive_type != 'NaN'}}
+              {{car.transmission|title if car.transmission != 'NaN'}}
+            </p>
+            <p class="text-gray-500">
+              {{car.mileage|int if car.mileage != 'NaN'}} miles
+            </p>
+          </div>
+        </div>
+        <button
+          class="whitespace-nowrap border-none text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
+        >
+          Buy Now
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="w-full bg-orange-gradient lg:py-24 py-12">
+  <div class="lg:py-24 py-12">
+    <div class="container">
+      <h2 class="text-center">Vehicle Details</h2>
+      <div class="xl:container lg:pt-12 pt-6">
+        <div class="grid grid-cols-2 w-full">
+          <h4
+            id="features-heading"
+            class="border-b-2 border-b-red-500 text-red-500 bg-red-50 hover:bg-red-50 pb-1 pt-2 text-center font-semibold cursor-pointer rounded-tl-lg"
+            onclick="activateDetailsTab('features')"
+          >
+            FEATURES
+          </h4>
+          <h4
+            id="details-heading"
+            class="border-b-2 border-b-gray-300 hover:bg-gray-50 pb-1 pt-2 text-center font-semibold cursor-pointer rounded-tr-lg"
+            onclick="activateDetailsTab('details')"
+          >
+            DETAILS
+          </h4>
+        </div>
+        <div id="features-detail" class="animate-fade-in">
+          <div class="lg:pt-12 pt-6">
+            <h4 class="font-semibold text-center">HIGHLIGHTED FEATURES</h4>
+            <div
+              id="car-features"
+              class="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-x-12 gap-x-6 lg:gap-y-6 gap-y-3 lg:pt-6 pt-3"
+            ></div>
+          </div>
+        </div>
+        <div id="details-detail" class="hidden animate-fade-in">
+          <div class="lg:pt-12 pt-6">
+            <h4 class="font-semibold text-center">BASICS</h4>
+            <div
+              id="basic-car-details"
+              class="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-12 gap-x-6 lg:pt-6 pt-3"
+            ></div>
+          </div>
+
+          <div class="lg:pt-12 pt-6">
+            <h4 class="font-semibold text-center">PERFORMANCE</h4>
+            <div
+              id="performance-car-details"
+              class="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-12 gap-x-6 lg:pt-6 pt-3"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full lg:py-24 py-12 bg-orange-gradient">
     <div class="container">
       <h2 class="text-center">Similar vehicles</h2>
       <div class="container lg:pt-12 pt-6">
         <div class="grid grid-cols-4 w-full">
-          <div
-            class="border-b border-b-red-500 pb-1 text-center font-semibold cursor-pointer text-red-500"
+          <h4
+            class="border-b-2 border-b-red-500 text-red-500 pb-1 text-center font-semibold cursor-pointer"
           >
             LOWER PAYMENT
-          </div>
-          <div
-            class="border-b border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
+          </h4>
+          <h4
+            class="border-b-2 border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
           >
-            LOWER PRICE
-          </div>
-          <div
-            class="border-b border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
+            LOWER PRICE DETAILS
+          </h4>
+
+          <h4
+            class="border-b-2 border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
           >
             LOWER MILEAGE
-          </div>
-          <div
-            class="border-b border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
+          </h4>
+
+          <h4
+            class="border-b-2 border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
           >
             DIFFERENT COLOR
-          </div>
+          </h4>
         </div>
         <div class="grid grid-cols-3 gap-6 lg:pt-12 pt-6">
           <a
@@ -78,4 +157,234 @@ content %}
     </div>
   </div>
 </div>
+<script>
+
+  const carFeaturesMap = {
+      android_auto: {
+        text: 'Android Auto',
+        icon: 'wifi'
+      },
+      apple_carPlay: {
+        text: 'Apple CarPlay',
+        icon: 'play_arrow'
+      },
+      backup_camera: {
+        text: 'Backup Camera/ Assist',
+        icon: 'videocam'
+      },
+      keyless_entry: {
+        text: 'Keyless Entry',
+        icon: 'settings_remote'
+      },
+      multimedia: {
+        text: 'Multimedia / Telematics',
+        icon: 'movie'
+      },
+      remote_start: {
+        text: 'Remote Start',
+        icon: 'settings_remote'
+      },
+      traction_control: {
+        text: 'Traction Control',
+        icon: 'directions_car'
+      },
+      navigation_system: {
+        text: 'Navigation System',
+        icon: 'near_me'
+      },
+      parking_assist_system: {
+        text: 'Parking Assist System',
+        icon: 'local_parking'
+      },
+      premium_sound_system: {
+        text: 'Premium Sound System',
+        icon: 'volume_up'
+      },
+      heated_seats: {
+        text: 'Heated Seats',
+        icon: 'airline_seat_recline_extra'
+      },
+      head_up_display: {
+        text: 'Head-Up Display',
+        icon: 'nest_display'
+      },
+    }
+    const carDetailsMap = {
+      body_style: {
+        text: 'Body Style',
+        type: 'basic'
+      },
+      mpg: {
+        text: 'MPG',
+        type: 'basic'
+      },
+      bed_style: {
+        text: 'Bed Style',
+        type: 'basic'
+      },
+      cab_style: {
+        text: 'Cab Style',
+        type: 'basic'
+      },
+      doors: {
+        text: 'Doors',
+        type: 'basic'
+      },
+      tank_size: {
+        text: 'Tank Size',
+        type: 'basic'
+      },
+
+      engine: {
+        text: 'Engine',
+        type: 'performance'
+      },
+      drive_type: {
+        text: 'Drive Type',
+        type: 'performance'
+      },
+      transmission: {
+        text: 'Transmission',
+        type: 'performance'
+      },
+      fuel: {
+        text: 'Fuel',
+        type: 'performance'
+      },
+    }
+    const resultCar = {{car|tojson}};
+    console.log(resultCar)
+
+    let carBasicDetails = [];
+    let carPerformanceDetails = [];
+
+    let basicDiv = document.getElementById('basic-car-details');
+    let performanceDiv = document.getElementById('performance-car-details');
+    let featuresHeading = document.getElementById('features-heading');
+    let detailsHeading = document.getElementById('details-heading');
+    let featuresDetail = document.getElementById('features-detail');
+    let detailsDetail = document.getElementById('details-detail');
+    let carFeatures = document.getElementById('car-features');
+
+    setCarFeatures();
+    setCarDetails();
+
+    function setCarFeatures() {
+      const carFeaturesObj = {
+        android_auto: 1,
+        apple_carPlay: 1,
+        backup_camera: 1,
+        keyless_entry: 1,
+        multimedia: 1,
+        remote_start: 1,
+        traction_control: 1,
+        navigation_system: 1,
+        parking_assist_system: 1,
+        premium_sound_system: 1,
+        heated_seats: 1,
+        head_up_display: 1
+      }
+      for (const key in carFeaturesObj) {
+      const val = carFeaturesObj[key];
+      console.log('key, mapKey, val', key, carFeaturesMap[key], val === 1)
+      if (carFeaturesMap[key] && val === 1) {
+      console.log('im in')
+        // if (carFeaturesMap[key].type === 'basic') {
+          pushToFeatures(carFeatures, carFeaturesMap[key].text, carFeaturesMap[key].icon);
+        // }
+      }
+    }
+    }
+
+    function setCarDetails() {
+      for (const key in resultCar) {
+      const val = resultCar[key];
+      if (carDetailsMap[key] && val !== 'NaN') {
+        if (carDetailsMap[key].type === 'basic') {
+          pushToDetails(basicDiv, carDetailsMap[key].text, val);
+
+        }
+        if (carDetailsMap[key].type === 'performance') {
+          pushToDetails(performanceDiv, carDetailsMap[key].text, val);
+        }
+      }
+    }
+    console.log('basic details', carBasicDetails);
+    console.log('performance details', carPerformanceDetails);
+    }
+
+    function pushToDetails(div, text, icon) {
+      let parentDiv = document.createElement('div');
+      parentDiv.className = 'flex sm:flex-row flex-col justify-between border-b py-4 sm:text-left text-center';
+
+      let textElement = document.createElement('h5');
+      textElement.className = 'sm:w-8/12 w-full font-semibold';
+      textElement.textContent = text;
+
+      let valueElement = document.createElement('h5');
+      // valueElement.className = 'sm:w-4/12 w-full';
+      valueElement.textContent = icon;
+
+      parentDiv.appendChild(textElement);
+      parentDiv.appendChild(valueElement);
+
+      div.appendChild(parentDiv);
+    }
+
+    function pushToFeatures(div, text, icon) {
+      let parentDiv = document.createElement('div');
+      parentDiv.className = 'flex justify-center items-center lg:gap-4 gap-2';
+
+      let iconElement = document.createElement('span');
+      iconElement.className = 'material-symbols-rounded border rounded-full p-2 border-orange-600 text-orange-600';
+      iconElement.textContent = icon;
+
+      let textElement = document.createElement('h5');
+      textElement.className = 'sm:w-8/12 min-w-[175px] font-semibold';
+      textElement.textContent = text;
+
+
+      parentDiv.appendChild(iconElement);
+      parentDiv.appendChild(textElement);
+
+      div.appendChild(parentDiv);
+      console.log(div)
+    }
+
+    function activateDetailsTab(tab) {
+      if (tab === 'details') {
+        featuresHeading.classList.remove('border-b-red-500');
+        featuresHeading.classList.remove('text-red-500');
+        featuresHeading.classList.remove('bg-red-50');
+        featuresHeading.classList.remove('hover:bg-red-50');
+        featuresHeading.classList.add('hover:bg-gray-50');
+        detailsHeading.classList.add('border-b-red-500');
+        detailsHeading.classList.add('text-red-500');
+        detailsHeading.classList.add('bg-red-50');
+        detailsHeading.classList.remove('border-b-gray-300');
+        detailsHeading.classList.add('hover:bg-red-50');
+
+        featuresDetail.classList.add('hidden');
+        detailsDetail.classList.remove('hidden');
+        return;
+      }
+
+      detailsHeading.classList.remove('border-b-red-500');
+      detailsHeading.classList.remove('text-red-500');
+      detailsHeading.classList.remove('bg-red-50');
+      detailsHeading.classList.remove('hover:bg-red-50');
+      detailsHeading.classList.add('hover:bg-gray-50');
+      featuresHeading.classList.add('border-b-red-500');
+      featuresHeading.classList.add('text-red-500');
+      featuresHeading.classList.add('bg-red-50');
+      featuresHeading.classList.remove('border-b-gray-300');
+      featuresHeading.classList.add('hover:bg-red-50');
+
+      detailsDetail.classList.add('hidden');
+      detailsDetail.classList.add('opacity-100');
+      detailsDetail.classList.remove('opacity-0');
+      featuresDetail.classList.remove('hidden');
+    }
+</script>
+<style></style>
 {% endblock %}
