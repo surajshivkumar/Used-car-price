@@ -19,14 +19,14 @@
     />
     <style>
       .nav-sticky {
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
         background: white;
-        /* @apply bg-gray-100; */
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
       }
-      /* html,
-      body {
-        height: 100%;
-      } */
+
+      .bg-shadow {
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+      }
+
       .autoComplete_wrapper {
         width: 100%;
       }
@@ -70,6 +70,15 @@
       </div>
     </nav>
     {% block content %}{% endblock %}
+    <footer class="lg:py-6 py-3 bg-orange-gradient">
+      <div class="flex items-center justify-center">
+        <p class="text-orange-600 flex items-center gap-2">
+          © 2023
+          <!-- <span class="material-symbols-rounded"> garage </span> -->
+          Garage_
+        </p>
+      </div>
+    </footer>
     <script>
       const navbar = document.getElementById("navbar");
       window.addEventListener("scroll", () => {

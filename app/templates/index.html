@@ -9,12 +9,12 @@
     class="container h-full grid grid-cols-2 lg:gap-24 gap-12 items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
   >
     <div>
-      <h1 class="mb-3">
-        Looking For a <span class="text-orange-600">New Ride?</span>
-      </h1>
-      <p class="mb-5 text-slate-500">Search from our vast fleet of vehicles</p>
+      <h1>Looking For a <span class="text-orange-600">New Ride?</span></h1>
+      <p class="lg:pt-3 pt-1.5 text-slate-500">
+        Search from our vast fleet of vehicles
+      </p>
 
-      <div class="autoComplete_wrapper">
+      <div class="autoComplete_wrapper lg:pt-6 pt-3">
         <form action="/results" method="POST" id="myForm">
           <input
             id="autoComplete"
@@ -73,6 +73,36 @@
     </div>
   </div>
 </div>
+<div class="lg:py-24 py-12">
+  <div class="grid grid-cols-2 container">
+    <div class="flex flex-col justify-center">
+      <div>
+        <h2>
+          Are you considering
+          <span class="text-orange-600">selling your car?</span>
+        </h2>
+        <p class="lg:pt-3 pt-1.5">
+          Get an instant appraisal in as little as <b>2 minutes</b>
+        </p>
+      </div>
+      <a href="/sell" class="lg:pt-6 pt-3">
+        <button
+          type="submit"
+          class="whitespace-nowrap border-none text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
+        >
+          Sell Car
+        </button>
+      </a>
+    </div>
+    <div class="flex justify-center">
+      <img
+        src="https://storage.googleapis.com/cdn-cloudstore/buy/sell-car.webp"
+        alt="gif"
+        class="w-80 aspect-[64/57]"
+      />
+    </div>
+  </div>
+</div>
 
 <script>
   let flaskData = {{ allCars|tojson }};
@@ -118,37 +148,5 @@
   }
 </script>
 
-<style>
-  html {
-    /* scroll-snap-type: y mandatory;
-    scroll-padding-top: 64px; */
-  }
-
-  .section {
-    width: 100%;
-    /* height: 100vh; */
-    /* scroll-snap-align: start;
-    scroll-snap-stop: normal; */
-  }
-
-  .top-section {
-    position: relative;
-  }
-  /* .top-section::before {
-    position: absolute;
-    right: -10%;
-    top: -35%;
-    z-index: -1;
-    height: 800px;
-    width: 800px;
-    border-radius: 9999px;
-    --tw-content: "";
-    content: var(--tw-content);
-    background: linear-gradient(
-      200deg,
-      rgb(247, 240, 237) 40%,
-      rgb(241, 246, 245) 100%
-    );
-  } */
-</style>
+<style></style>
 {% endblock %}
