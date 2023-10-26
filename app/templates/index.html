@@ -61,9 +61,9 @@
         onclick="submitForm('{{ car.value }}')"
       >
         <img
-          src="https://storage.googleapis.com/cdn-cloudstore/buy/{{car.key}}.webp"
+          data-src="https://storage.googleapis.com/cdn-cloudstore/buy/{{car.key}}.webp"
           alt=""
-          class="w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
+          class="lazy-image w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
         />
         <p class="text-center pt-2 group-hover:text-white font-semibold">
           {{car.value}}
@@ -96,9 +96,9 @@
     </div>
     <div class="flex justify-center">
       <img
-        src="https://storage.googleapis.com/cdn-cloudstore/buy/sell-car.webp"
+        data-src="https://storage.googleapis.com/cdn-cloudstore/buy/sell-car.webp"
         alt="gif"
-        class="w-80 aspect-[64/57]"
+        class="lazy-image w-80 aspect-[64/57]"
       />
     </div>
   </div>

@@ -86,6 +86,25 @@
           ? navbar.classList.add("nav-sticky")
           : navbar.classList.remove("nav-sticky");
       });
+
+      // Create an Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // When an image is in the viewport, load it
+            const image = entry.target;
+            image.src = image.getAttribute("data-src");
+            image.classList.remove("lazy-image");
+            observer.unobserve(image); // Stop observing once loaded
+          }
+        });
+      });
+
+      // Observe all elements with the class "lazy-image"
+      const lazyImages = document.querySelectorAll(".lazy-image");
+      lazyImages.forEach((image) => {
+        observer.observe(image);
+      });
     </script>
   </body>
 </html>
