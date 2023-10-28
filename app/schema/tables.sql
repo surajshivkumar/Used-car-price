@@ -77,4 +77,19 @@ CREATE TABLE car_features
     PRIMARY KEY (cf_car_id)
 );
 
+create table similarity_matrix
+(
+    cd_id float ,
+    si_0 float,
+    si_1 float,
+    si_2 float,
+    si_3 float,
+    si_4 float,
+    si_5 float,
+    si_6 float,
+    si_7 float,
+    si_8 float,
+    si_9 float,
+    PRIMARY KEY(cd_id)
+);
 

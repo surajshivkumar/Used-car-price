@@ -1,6 +1,7 @@
 import sys
 import time
 import pandas as pd 
+import numpy as np
 from sql_connect import Connections
 
 def get_data(data_path):
@@ -37,6 +38,13 @@ def get_data_car_details(data_path):
     df.columns = ['cd_'+i.lower().replace(' ','_')  for i in df.columns]
     return df
 
+def get_similarity_matrix(data_path):
+    df = pd.read_csv(data_path)
+    df = df.drop(['Unnamed: 0'],axis=1)
+    for col in df.columns:
+        df[col] = df[col].apply(float)
+    return df
+
 def get_data_car_features(data_path):
     df = pd.read_excel(data_path)
     df['car_id'] = df.index
@@ -66,8 +74,8 @@ def main(conf_path: str,data_path:str):
 
     config = conn.get_confg()
 
-    data = get_data_car_details(data_path)
-    conn.push_to_sql(data, config,table='table_car_details',primary_key = 'table_car_details_pk')
+    data = get_similarity_matrix(data_path)
+    conn.push_to_sql(data, config,table='table_similarity',primary_key = 'table_similarity_pk')
     time_taken   = time.time() - start_time
     print('Time taken = {} s'.format(round(time_taken,1)))
 

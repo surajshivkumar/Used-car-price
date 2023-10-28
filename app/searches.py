@@ -50,7 +50,7 @@ class Search:
         dict: Processed car details as a dictionary.
         '''
         car.columns = [col.replace('cd_', '') for col in car.columns]
-        car = car[['mileage_miles', 'car_price', 'year', 'make', 'model',
+        car = car[['id','mileage_miles', 'car_price', 'year', 'make', 'model',
                    'body_style', 'doors', 'mpg', 'engine', 'transmission', 'drive_type',
                    'fuel', 'tank_size', 'bed_style', 'cab_style', 'path_']]
         car = car.rename(columns={'mileage_miles': 'mileage',

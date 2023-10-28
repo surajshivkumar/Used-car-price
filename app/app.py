@@ -52,6 +52,15 @@ def results_view():
         product_id = request.form.get('productId')
         car = search.getProduct(product_id)
         car = search.processResultsView(car)
+        conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
+        similarSearches = pd.read_sql('''select cd_id,si_0,si_1,si_2 from similarity_matrix where cd_id = {id_} '''.format(id_=float(product_id)), conn)
+        conn.close()
+        similarSearches = similarSearches.drop(['cd_id'],axis=1)
+        similarSearches = [int(val) for val in similarSearches.values[0]]
+        conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
+        similarItems = pd.read_sql('''select cd_make,cd_model,cd_car_price,cd_path_ from car_details where cd_id in {ids} '''.format(ids=tuple(similarSearches)), conn)
+        conn.close()
+        print(similarItems.T.to_dict())
         return render_template('results-view.html', car=car)
 
 @app.route('/sell',methods=['GET', 'POST'])
@@ -61,7 +70,7 @@ def sell():
     '''
     # Get possible searches from the database
     conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
-    possibleSearches = pd.read_sql('''...''', conn)  # SQL query truncated for brevity
+    possibleSearches = pd.read_sql('''select cd_body_style,cd_make as car_make,cd_model from car_details''', conn)  # SQL query truncated for brevity
     conn.close()
 
     possibleSearches = possibleSearches[possibleSearches.cd_body_style != 'NaN']
@@ -76,8 +85,12 @@ def sell():
             car_type = request.form.get('carType')
             result_car_make = list(possibleSearchesCarType.get('Makes').get(car_type))
             return jsonify(result_car_make)
-        
-        # ... Similar logic for other actions (getCarModel, getCarPrice) ...
+        if action == 'getCarModel':
+            carMake = request.form.get('carMake')
+            car_type = request.form.get('carType')
+            possibleSearchesCarModel = possibleSearches[(possibleSearches.car_make == carMake) & (possibleSearches.cd_body_style == car_type)].groupby(['car_make']).agg(Models=('cd_model', lambda x: list(set(x)))).to_dict()
+            carTypes = list(possibleSearchesCarModel.get('Models').values())[0]
+            return jsonify(carTypes)
 
     return render_template('sell.html', carTypes=carTypes)
 
