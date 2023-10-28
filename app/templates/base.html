@@ -19,14 +19,14 @@
     />
     <style>
       .nav-sticky {
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
         background: white;
-        /* @apply bg-gray-100; */
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
       }
-      /* html,
-      body {
-        height: 100%;
-      } */
+
+      .bg-shadow {
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+      }
+
       .autoComplete_wrapper {
         width: 100%;
       }
@@ -70,12 +70,40 @@
       </div>
     </nav>
     {% block content %}{% endblock %}
+    <footer class="lg:py-6 py-3 bg-orange-gradient">
+      <div class="flex items-center justify-center">
+        <p class="text-orange-600 flex items-center gap-2">
+          © 2023
+          <!-- <span class="material-symbols-rounded"> garage </span> -->
+          Garage_
+        </p>
+      </div>
+    </footer>
     <script>
       const navbar = document.getElementById("navbar");
       window.addEventListener("scroll", () => {
         window.scrollY > 10
           ? navbar.classList.add("nav-sticky")
           : navbar.classList.remove("nav-sticky");
+      });
+
+      // Create an Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // When an image is in the viewport, load it
+            const image = entry.target;
+            image.src = image.getAttribute("data-src");
+            image.classList.remove("lazy-image");
+            observer.unobserve(image); // Stop observing once loaded
+          }
+        });
+      });
+
+      // Observe all elements with the class "lazy-image"
+      const lazyImages = document.querySelectorAll(".lazy-image");
+      lazyImages.forEach((image) => {
+        observer.observe(image);
       });
     </script>
   </body>

@@ -7,9 +7,9 @@ content %}
     <div class="container">
       <div class="overflow-hidden group max-h-[600px] rounded-lg">
         <img
-          src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
+          data-src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
           alt=""
-          class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-500"
+          class="lazy-image w-full h-full object-cover group-hover:scale-125 transition-transform duration-500"
         />
       </div>
 
@@ -122,7 +122,7 @@ content %}
             DIFFERENT COLOR
           </h4>
         </div>
-        <div class="grid grid-cols-3 gap-6 lg:pt-12 pt-6">
+        <!-- <div class="grid grid-cols-3 gap-6 lg:pt-12 pt-6">
           <a
             class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
             href="./results-view"
@@ -152,7 +152,7 @@ content %}
               <h5 class="font-semibold">$25.52</h5>
             </div>
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

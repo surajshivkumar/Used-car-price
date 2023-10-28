@@ -2,17 +2,17 @@
 %}
 <div class="top-section overflow-hidden">
   <div
-    class="container h-full flex lg:flex-row flex-col items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
+    class="container h-full grid lg:grid-cols-2 grid-cols-1 lg:pt-24 pt-12 lg:pb-32 pb-16 lg:gap-12 gap-6"
   >
-    <div class="lg:w-7/12 w-full">
-      <h1 class="mb-3">
+    <div class="flex flex-col justify-center">
+      <h1 class="lg:text-start text-center mb-3">
         See what your <span class="text-orange-600">car is worth</span>
       </h1>
-      <p class="mb-5 text-slate-500">
+      <p class="lg:text-start text-center mb-5 text-slate-500">
         Get an instant appraisal in as little as 2 minutes.
       </p>
     </div>
-    <div class="lg:w-5/12 w-full flex items-center justify-center">
+    <div class="flex items-center justify-center">
       <form id="detailsForm" action="/sell" method="post" class="hidden">
         <input type="hidden" name="action" value="getCarMake" />
         <input id="getCarMake" type="text" name="carMake" value="" />
@@ -122,15 +122,64 @@
   </div>
 </div>
 
-<div
-  id="price-section"
-  class="hidden lg:py-24 py-12 w-full bg-orange-gradient h-[600px]"
->
+<div class="bg-orange-gradient lg:py-24 py-12">
+  <div class="container">
+    <p class="font-semibold text-center">PRICE BREAKDOWN</p>
+    <p class="text-center pt-2">
+      This analysis is based on a comparison of 28 vehicles with similar
+      features and mileage in your local area.
+    </p>
+    <div>
+      <div id="deal-header" class="grid grid-cols-4 text-center lg:pt-12 pt-6">
+        <div class="great"></div>
+        <div class="good">
+          <!-- <p class="lg:text-sm text-xs">THIS VEHICLE</p>
+          <p class="lg:text-base text-sm font-semibold pb-2">$70000</p>
+          <div
+            class="bg-white shadow-green rounded-full w-4 h-4 mx-auto z-10 relative"
+          ></div> -->
+        </div>
+        <div class="fair"></div>
+        <div class="above"></div>
+      </div>
+      <div id="deal-main" class="grid grid-cols-4 -mt-7">
+        <div class="great pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300 rounded-l-lg"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            GREAT DEAL
+          </p>
+        </div>
+        <div class="good pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            GOOD DEAL
+          </p>
+        </div>
+        <div class="fair pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            FAIR PRICE
+          </p>
+        </div>
+        <div class="above pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300 rounded-r-lg"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            ABOVE MARKET
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="bg-blue-300 text-blue-300 text-green-300 bg-green-300 text-yellow-300 bg-yellow-300 bg-red-300 text-red-300"></div> -->
+
+<div id="price-section" class="hidden lg:py-24 py-12 w-full h-[600px]">
   <div id="loading" class="flex flex-col items-center">
     <img
-      src="https://storage.googleapis.com/cdn-cloudstore/loading.gif"
+      data-src="https://storage.googleapis.com/cdn-cloudstore/loading.gif"
       alt="gif"
-      class="w-64 h-48"
+      class="lazy-image w-64 h-48"
     />
     <h4 class="pt-2 ml-8">Loading...</h4>
   </div>
@@ -142,10 +191,29 @@
   rel="stylesheet"
   href="https://unpkg.com/slim-select@latest/dist/slimselect.css"
 />
-<script type="module">
+<script>
+  const dealType = "above";
+  const dealMap = {
+    great: {
+      color: "blue",
+    },
+    good: {
+      color: "green",
+    },
+    fair: {
+      color: "yellow",
+    },
+    above: {
+      color: "red",
+    },
+  };
+
   let carTypeSelect = document.getElementById("carType");
   let carMakeSelect = document.getElementById("carMake");
   let carModelSelect = document.getElementById("carModel");
+  let dealHeaderDiv = document.getElementById("deal-header");
+  let dealMainDiv = document.getElementById("deal-main");
+
   let slimSelectType = new SlimSelect({
     select: carTypeSelect,
   });
@@ -169,6 +237,9 @@
 
   onSelectChange(carTypeSelect, "getCarMake");
   onSelectChange(carMakeSelect, "getCarModel");
+
+  setDealHeader(dealType, 70000);
+  setDealMain(dealType);
 
   function formSubmitListener() {
     const form = document.getElementById("form");
@@ -279,27 +350,97 @@
     });
     return titleCaseWords.join(" ");
   }
+
+  function setDealMain(type) {
+    const parentDiv = dealMainDiv.querySelector(`.${type}`);
+    if (parentDiv) {
+      const childDiv = parentDiv.querySelector("div");
+      childDiv.classList.remove("bg-gray-300");
+      childDiv.classList.add(`bg-${dealMap[type].color}-300`);
+      const pElement = parentDiv.querySelector("p");
+      pElement.classList.remove("text-gray-500");
+      pElement.classList.add(`text-${dealMap[type].color}-300`);
+    }
+  }
+  function setDealHeader(type, price) {
+    const parentDiv = dealHeaderDiv.querySelector(`.${type}`);
+    if (parentDiv) {
+      const pElement1 = document.createElement("p");
+      pElement1.classList.add("font-semibold", "lg:text-sm", "text-xs");
+      pElement1.textContent = "THIS VEHICLE";
+
+      const pElement2 = document.createElement("p");
+      pElement2.classList.add(
+        "lg:text-base",
+        "text-sm",
+        "font-semibold",
+        "pb-2"
+      );
+      pElement2.textContent = `$${price}`;
+
+      const circleDiv = document.createElement("div");
+      circleDiv.classList.add(
+        "bg-white",
+        `shadow-${dealMap[type].color}`,
+        "rounded-full",
+        "w-4",
+        "h-4",
+        "mx-auto",
+        "z-10",
+        "relative"
+      );
+
+      parentDiv.appendChild(pElement1);
+      parentDiv.appendChild(pElement2);
+      parentDiv.appendChild(circleDiv);
+    }
+  }
 </script>
 
 <style>
   .top-section {
     position: relative;
   }
-  .top-section::before {
-    position: absolute;
-    right: -10%;
-    top: -35%;
-    z-index: -1;
-    height: 800px;
-    width: 800px;
-    border-radius: 9999px;
-    --tw-content: "";
-    content: var(--tw-content);
-    background: linear-gradient(
-      200deg,
-      rgb(247, 240, 237) 40%,
-      rgb(241, 246, 245) 100%
-    );
+  @media (min-width: 1024px) {
+    .top-section::before {
+      position: absolute;
+      right: -10%;
+      top: -35%;
+      z-index: -1;
+      height: 800px;
+      width: 800px;
+      border-radius: 9999px;
+      --tw-content: "";
+      content: var(--tw-content);
+      background: linear-gradient(
+        200deg,
+        rgb(247, 240, 237) 40%,
+        rgb(241, 246, 245) 100%
+      );
+    }
+  }
+  .shadow-blue {
+    box-shadow:
+      0 0 0 4px #93c5fdb0,
+      0 0 0 8px #93c5fd80;
+  }
+
+  .shadow-green {
+    box-shadow:
+      0 0 0 4px #35d0b1b0,
+      0 0 0 8px #35d0b180;
+  }
+
+  .shadow-yellow {
+    box-shadow:
+      0 0 0 4px #fde047b0,
+      0 0 0 8px #fde04780;
+  }
+
+  .shadow-red {
+    box-shadow:
+      0 0 0 4px #fca5a5b0,
+      0 0 0 8px #fca5a580;
   }
 </style>
 {% endblock %}
