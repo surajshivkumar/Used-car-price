@@ -97,62 +97,33 @@ content %}
   <div class="w-full lg:py-24 py-12 bg-orange-gradient">
     <div class="container">
       <h2 class="text-center">Similar vehicles</h2>
+      <form action="/results-view" method="POST" id="hiddenForm">
+        <input type="hidden" id="product-id" name="productId" value="" />
+      </form>
       <div class="container lg:pt-12 pt-6">
-        <div class="grid grid-cols-4 w-full">
-          <h4
-            class="border-b-2 border-b-red-500 text-red-500 pb-1 text-center font-semibold cursor-pointer"
+        <div class="grid grid-cols-3 gap-6">
+          {% for car in similarCars %}
+          <a
+            class="shadow-md rounded-lg hover:shadow-lg transition-transform cursor-pointer bg-white overflow-hidden"
+            href="javascript:void(0);"
+            onclick="submitForm('{{ car.id }}')"
           >
-            LOWER PAYMENT
-          </h4>
-          <h4
-            class="border-b-2 border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
-          >
-            LOWER PRICE DETAILS
-          </h4>
-
-          <h4
-            class="border-b-2 border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
-          >
-            LOWER MILEAGE
-          </h4>
-
-          <h4
-            class="border-b-2 border-b-gray-300 pb-1 text-center font-semibold cursor-pointer"
-          >
-            DIFFERENT COLOR
-          </h4>
+            <img
+              data-src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
+              class="lazy-image w-full object-cover aspect-video duration-500 h-48 rounded-t-lg"
+              alt="Lazy-loaded Image"
+            />
+            <div class="flex justify-between lg:p-4 p-2 bg-white relative">
+              <div>
+                <h5 class="font-semibold text-center">
+                  {{car.year}} {{car.make}} {{car.model}}
+                </h5>
+              </div>
+              <h5 class="font-semibold">${{car.price|int}}</h5>
+            </div>
+          </a>
+          {% endfor %}
         </div>
-        <!-- <div class="grid grid-cols-3 gap-6 lg:pt-12 pt-6">
-          <a
-            class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
-            href="./results-view"
-          >
-            <img
-              src="../static/assets/car-result.webp"
-              alt=""
-              class="w-full rounded-t-md aspect-video"
-            />
-            <div class="flex justify-between lg:p-4 p-2">
-              <h5 class="font-semibold text-center">Ford</h5>
-              <h5 class="font-semibold">$25.52</h5>
-            </div>
-          </a>
-
-          <a
-            class="shadow-md rounded-md hover:shadow-lg cursor-pointer"
-            href="./results-view"
-          >
-            <img
-              src="../static/assets/car-result.webp"
-              alt=""
-              class="w-full rounded-t-md aspect-video"
-            />
-            <div class="flex justify-between lg:p-4 p-2">
-              <h5 class="font-semibold text-center">Ford</h5>
-              <h5 class="font-semibold">$25.52</h5>
-            </div>
-          </a>
-        </div> -->
       </div>
     </div>
   </div>
@@ -253,11 +224,7 @@ content %}
       },
     }
     const resultCar = {{car|tojson}};
-    console.log(resultCar)
-
-    let carBasicDetails = [];
-    let carPerformanceDetails = [];
-
+    // console.log(resultCar)
     let basicDiv = document.getElementById('basic-car-details');
     let performanceDiv = document.getElementById('performance-car-details');
     let featuresHeading = document.getElementById('features-heading');
@@ -286,9 +253,7 @@ content %}
       }
       for (const key in carFeaturesObj) {
       const val = carFeaturesObj[key];
-      console.log('key, mapKey, val', key, carFeaturesMap[key], val === 1)
       if (carFeaturesMap[key] && val === 1) {
-      console.log('im in')
         // if (carFeaturesMap[key].type === 'basic') {
           pushToFeatures(carFeatures, carFeaturesMap[key].text, carFeaturesMap[key].icon);
         // }
@@ -300,17 +265,11 @@ content %}
       for (const key in resultCar) {
       const val = resultCar[key];
       if (carDetailsMap[key] && val !== 'NaN') {
-        if (carDetailsMap[key].type === 'basic') {
-          pushToDetails(basicDiv, carDetailsMap[key].text, val);
-
-        }
-        if (carDetailsMap[key].type === 'performance') {
+        carDetailsMap[key].type === 'basic' ?
+          pushToDetails(basicDiv, carDetailsMap[key].text, val) :
           pushToDetails(performanceDiv, carDetailsMap[key].text, val);
-        }
       }
     }
-    console.log('basic details', carBasicDetails);
-    console.log('performance details', carPerformanceDetails);
     }
 
     function pushToDetails(div, text, icon) {
@@ -322,7 +281,6 @@ content %}
       textElement.textContent = text;
 
       let valueElement = document.createElement('h5');
-      // valueElement.className = 'sm:w-4/12 w-full';
       valueElement.textContent = icon;
 
       parentDiv.appendChild(textElement);
@@ -348,7 +306,6 @@ content %}
       parentDiv.appendChild(textElement);
 
       div.appendChild(parentDiv);
-      console.log(div)
     }
 
     function activateDetailsTab(tab) {
@@ -384,6 +341,11 @@ content %}
       detailsDetail.classList.add('opacity-100');
       detailsDetail.classList.remove('opacity-0');
       featuresDetail.classList.remove('hidden');
+    }
+
+    function submitForm(productId) {
+      document.getElementById("product-id").value = productId;
+      document.getElementById("hiddenForm").submit();
     }
 </script>
 <style></style>

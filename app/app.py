@@ -58,10 +58,12 @@ def results_view():
         similarSearches = similarSearches.drop(['cd_id'],axis=1)
         similarSearches = [int(val) for val in similarSearches.values[0]]
         conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
-        similarItems = pd.read_sql('''select cd_make,cd_model,cd_car_price,cd_path_ from car_details where cd_id in {ids} '''.format(ids=tuple(similarSearches)), conn)
+        similarCars = pd.read_sql('''select cd_id as id, cd_year as year, cd_make as make,cd_model as model,cd_car_price as price,cd_path_ as path from car_details where cd_id in {ids} '''.format(ids=tuple(similarSearches)), conn)
         conn.close()
-        print(similarItems.T.to_dict())
-        return render_template('results-view.html', car=car)
+        similarCars['path'] = similarCars.path.apply(lambda car: car.split('.')[0] + '.webp')
+        similarCars = similarCars.T.to_dict()
+        similarCars = [similarCars[i] for i in similarCars.keys()]
+        return render_template('results-view.html', car=car,similarCars=similarCars)
 
 @app.route('/sell',methods=['GET', 'POST'])
 def sell():    

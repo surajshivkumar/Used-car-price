@@ -132,36 +132,42 @@
     <div>
       <div id="deal-header" class="grid grid-cols-4 text-center lg:pt-12 pt-6">
         <div class="great"></div>
-        <div class="good">
-          <!-- <p class="lg:text-sm text-xs">THIS VEHICLE</p>
-          <p class="lg:text-base text-sm font-semibold pb-2">$70000</p>
-          <div
-            class="bg-white shadow-green rounded-full w-4 h-4 mx-auto z-10 relative"
-          ></div> -->
-        </div>
+        <div class="good"></div>
         <div class="fair"></div>
         <div class="above"></div>
       </div>
       <div id="deal-main" class="grid grid-cols-4 -mt-7">
-        <div class="great pt-4 text-center relative">
+        <div
+          class="great pt-4 text-center relative"
+          onclick="setDealsDetails('great')"
+        >
           <div class="w-full h-2 bg-gray-300 rounded-l-lg"></div>
           <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
             GREAT DEAL
           </p>
         </div>
-        <div class="good pt-4 text-center relative">
+        <div
+          class="good pt-4 text-center relative"
+          onclick="setDealsDetails('good')"
+        >
           <div class="w-full h-2 bg-gray-300"></div>
           <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
             GOOD DEAL
           </p>
         </div>
-        <div class="fair pt-4 text-center relative">
+        <div
+          class="fair pt-4 text-center relative"
+          onclick="setDealsDetails('fair')"
+        >
           <div class="w-full h-2 bg-gray-300"></div>
           <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
             FAIR PRICE
           </p>
         </div>
-        <div class="above pt-4 text-center relative">
+        <div
+          class="above pt-4 text-center relative"
+          onclick="setDealsDetails('above')"
+        >
           <div class="w-full h-2 bg-gray-300 rounded-r-lg"></div>
           <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
             ABOVE MARKET
@@ -238,8 +244,12 @@
   onSelectChange(carTypeSelect, "getCarMake");
   onSelectChange(carMakeSelect, "getCarModel");
 
-  setDealHeader(dealType, 70000);
-  setDealMain(dealType);
+  setDealsDetails(dealType);
+
+  function setDealsDetails(dealType) {
+    setDealHeader(dealType, 70000);
+    setDealMain(dealType);
+  }
 
   function formSubmitListener() {
     const form = document.getElementById("form");
