@@ -298,7 +298,7 @@ content %}
       iconElement.textContent = icon;
 
       let textElement = document.createElement('h5');
-      textElement.className = 'sm:w-8/12 min-w-[175px] font-semibold';
+      textElement.className = 'sm:w-8/12 min-w-[175px] font-semibold shine-text';
       textElement.textContent = text;
 
 
@@ -348,5 +348,29 @@ content %}
       document.getElementById("hiddenForm").submit();
     }
 </script>
-<style></style>
+<style>
+  /* .shine-text {
+    position: relative;
+  }
+  .shine-text:after {
+    content: "";
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    left: auto;
+    top: 0;
+    bottom: 0;
+    right: -15%;
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    );
+  }
+  .shine-text:hover:after {
+    transition: all 0.4s ease-out;
+    right: 100%;
+  } */
+</style>
 {% endblock %}
