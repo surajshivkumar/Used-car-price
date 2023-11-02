@@ -1,18 +1,16 @@
 {% extends "base.html" %} {% block title %}Sell{% endblock %} {% block content
 %}
-<div class="top-section overflow-hidden">
-  <div
-    class="container h-full grid lg:grid-cols-2 grid-cols-1 lg:pt-24 pt-12 lg:pb-32 pb-16 lg:gap-12 gap-6"
-  >
+<div class="top-section overflow-hidden min-h-[calc(100vh-136px)]">
+  <div class="container h-full lg:py-24 py-12 lg:gap-12 gap-6">
     <div class="flex flex-col justify-center">
-      <h1 class="lg:text-start text-center mb-3">
+      <h1 class="text-center mb-3">
         See what your <span class="text-orange-600">car is worth</span>
       </h1>
-      <p class="lg:text-start text-center mb-5 text-slate-500">
+      <p class="text-center mb-5 text-slate-500">
         Get an instant appraisal in as little as 2 minutes.
       </p>
     </div>
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center lg:pt-6 pt-3">
       <form id="detailsForm" action="/sell" method="post" class="hidden">
         <input type="hidden" name="action" value="getCarMake" />
         <input id="getCarMake" type="text" name="carMake" value="" />
@@ -22,14 +20,14 @@
       <form
         action="/sell"
         method="post"
-        class="shadow-lg bg-white p-6 rounded-xl w-full"
+        class="bg-shadow bg-white p-6 rounded-xl w-full"
         id="form"
       >
-        <p class="lg:pb-4 pb-2 font-semibold">
+        <!-- <p class="lg:pb-4 pb-2 font-semibold">
           Please fill in the form to get a quote
-        </p>
+        </p> -->
         <input type="hidden" name="action" value="getCarPrice" />
-        <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-3 gap-4">
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="carType">Car Type</label>
             <select
@@ -109,6 +107,158 @@
             />
           </div>
         </div>
+
+        <button
+          class="pt-4 hover:text-cyan-400"
+          onclick="toggleAdvancedSettings()"
+        >
+          Show Advanced Settings
+        </button>
+        <div class="hidden flex-wrap gap-4 pt-2" id="advanced-settings">
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Hill Assist System</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Entry</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Ignition</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Multimedia Telematics</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Hill Assist System</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Ignition</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Hill Assist System</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Ignition</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Multimedia Telematics</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Entry</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Ignition</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Full Self Driving Capability</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Multimedia Telematics</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Entry</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Ignition</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Hill Assist System</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Entry</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-1 min-w-[150px]">
+            <p class="text-xs">Keyless Ignition</p>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
         <div class="flex justify-end lg:pt-10 pt-5">
           <button
             type="submit"
@@ -122,7 +272,7 @@
   </div>
 </div>
 
-<div class="bg-orange-gradient lg:py-24 py-12">
+<!-- <div class="bg-orange-gradient lg:py-24 py-12">
   <div class="container">
     <p class="font-semibold text-center">PRICE BREAKDOWN</p>
     <p class="text-center pt-2">
@@ -164,7 +314,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- <div class="bg-blue-300 text-blue-300 text-green-300 bg-green-300 text-yellow-300 bg-yellow-300 bg-red-300 text-red-300"></div> -->
 
@@ -207,6 +357,7 @@
   let carModelSelect = document.getElementById("carModel");
   let dealHeaderDiv = document.getElementById("deal-header");
   let dealMainDiv = document.getElementById("deal-main");
+  let advancedSettingsDiv = document.getElementById("advanced-settings");
 
   let slimSelectType = new SlimSelect({
     select: carTypeSelect,
@@ -393,6 +544,17 @@
       parentDiv.appendChild(circleDiv);
     }
   }
+
+  function toggleAdvancedSettings() {
+    if (advancedSettingsDiv.classList.contains("hidden")) {
+      advancedSettingsDiv.classList.remove("hidden");
+      advancedSettingsDiv.classList.add("flex");
+      return;
+    }
+
+    advancedSettingsDiv.classList.remove("flex");
+    advancedSettingsDiv.classList.add("hidden");
+  }
 </script>
 
 <style>
@@ -439,6 +601,75 @@
     box-shadow:
       0 0 0 4px #fca5a5b0,
       0 0 0 8px #fca5a580;
+  }
+
+  .switch {
+    --button-width: 3.5em;
+    --button-height: 2em;
+    --toggle-diameter: 1.5em;
+    --button-toggle-offset: calc(
+      (var(--button-height) - var(--toggle-diameter)) / 2
+    );
+    --toggle-shadow-offset: 10px;
+    --toggle-wider: 3em;
+    --color-grey: #cccccc;
+    --color-green: #4296f4;
+  }
+
+  .slider {
+    display: inline-block;
+    width: var(--button-width);
+    height: var(--button-height);
+    background-color: var(--color-grey);
+    border-radius: calc(var(--button-height) / 2);
+    position: relative;
+    transition: 0.3s all ease-in-out;
+  }
+
+  .slider::after {
+    content: "";
+    display: inline-block;
+    width: var(--toggle-diameter);
+    height: var(--toggle-diameter);
+    background-color: #fff;
+    border-radius: calc(var(--toggle-diameter) / 2);
+    position: absolute;
+    top: var(--button-toggle-offset);
+    transform: translateX(var(--button-toggle-offset));
+    box-shadow: var(--toggle-shadow-offset) 0
+      calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+    transition: 0.3s all ease-in-out;
+  }
+
+  .switch input[type="checkbox"]:checked + .slider {
+    background-color: var(--color-green);
+  }
+
+  .switch input[type="checkbox"]:checked + .slider::after {
+    transform: translateX(
+      calc(
+        var(--button-width) - var(--toggle-diameter) -
+          var(--button-toggle-offset)
+      )
+    );
+    box-shadow: calc(var(--toggle-shadow-offset) * -1) 0
+      calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+  }
+
+  .switch input[type="checkbox"] {
+    display: none;
+  }
+
+  .switch input[type="checkbox"]:active + .slider::after {
+    width: var(--toggle-wider);
+  }
+
+  .switch input[type="checkbox"]:checked:active + .slider::after {
+    transform: translateX(
+      calc(
+        var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)
+      )
+    );
   }
 </style>
 {% endblock %}
