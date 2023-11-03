@@ -27,14 +27,14 @@
           Please fill in the form to get a quote
         </p> -->
         <input type="hidden" name="action" value="getCarPrice" />
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid lg:grid-cols-3 grid-cols-1 gap-4">
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="carType">Car Type</label>
             <select
               required
               id="carType"
-              name="carType"
-              class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              name="type"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
               {% for car in carTypes %}
@@ -47,9 +47,9 @@
             <label class="text-sm pb-1" for="carMake">Car Make</label>
             <select
               id="carMake"
-              name="carMake"
+              name="make"
               disabled
-              class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>
                 Please select a car type first
@@ -64,9 +64,9 @@
             <label class="text-sm pb-1" for="carModel">Car Model</label>
             <select
               id="carModel"
-              name="carModel"
+              name="model"
               disabled
-              class="border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>
                 Please select a car make first
@@ -78,21 +78,40 @@
             <label class="text-sm pb-1" for="carMileage">Car Mileage</label>
             <input
               type="text"
-              name="carMileage"
+              name="mileage_miles"
               id="carMileage"
               placeholder="Enter Mileage"
-              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
           </div>
 
           <div class="flex flex-col">
-            <label class="text-sm pb-1" for="carColor">Car Color</label>
+            <label class="text-sm pb-1" for="carMileage">City MPG</label>
             <input
-              type="text"
-              name="carColor"
-              id="carColor"
-              placeholder="Enter Color"
-              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              type="number"
+              name="city_mpg"
+              placeholder="Enter City MPG"
+              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carMileage">Highway MPG</label>
+            <input
+              type="number"
+              name="hwy_mpg"
+              placeholder="Enter Highway MPG"
+              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="carMileage">Highway MPG</label>
+            <input
+              type="number"
+              name="hwy_mpg"
+              placeholder="Enter Highway MPG"
+              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
           </div>
 
@@ -100,167 +119,95 @@
             <label class="text-sm pb-1" for="carYear">Car Year</label>
             <input
               type="number"
-              name="carYear"
+              name="year"
+              min="1900"
+              max="2100"
+              step="1"
+              onblur="this.value = validateYear(this);"
               id="carYear"
-              placeholder="Enter Year"
-              class="px-2 border border-gray-100 bg-gray-100 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              placeholder="YYYY"
+              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
           </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="door">Car Doors</label>
+            <select
+              id="door"
+              name="door"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            >
+              <option value="" disabled selected>Please select</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="transmission">Transmission</label>
+            <select
+              id="transmission"
+              name="transmission"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            >
+              <option value="" disabled selected>Please select</option>
+              <option value="automatic">Automatic</option>
+              <option value="gear">Gear</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="engine">Engine</label>
+            <select
+              id="engine"
+              name="engine"
+              class="border rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            >
+              <option value="" disabled selected>Please select</option>
+              <option value="4 cyl">4 Cyl</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="drive_type">Drive Type</label>
+            <select
+              id="drive_type"
+              name="drive_type"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            >
+              <option value="" disabled selected>Please select</option>
+              <option value="rwd">RWD</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-sm pb-1" for="fuel">Fuel</label>
+            <select
+              id="fuel"
+              name="fuel"
+              class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+            >
+              <option value="" disabled selected>Please select</option>
+              <option value="gasoline">Gasoline</option>
+            </select>
+          </div>
         </div>
 
-        <button
-          class="pt-4 hover:text-cyan-400"
+        <div
+          class="pt-4 text-cyan-400 hover:text-cyan-500 flex items-center cursor-pointer gap-1"
           onclick="toggleAdvancedSettings()"
         >
-          Show Advanced Settings
-        </button>
-        <div class="hidden flex-wrap gap-4 pt-2" id="advanced-settings">
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Hill Assist System</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Entry</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Ignition</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Multimedia Telematics</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Hill Assist System</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Ignition</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Hill Assist System</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Ignition</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Multimedia Telematics</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Entry</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Ignition</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Full Self Driving Capability</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Multimedia Telematics</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Entry</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Ignition</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Hill Assist System</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Entry</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="flex flex-col gap-1 min-w-[150px]">
-            <p class="text-xs">Keyless Ignition</p>
-            <label class="switch">
-              <input type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
+          <span class="material-symbols-rounded"> settings </span>
+          <p><span id="show">Show</span> Advanced Settings</p>
         </div>
+        <div
+          class="hidden flex-wrap gap-4 lg:pt-6 pt-3"
+          id="advanced-settings"
+        ></div>
 
         <div class="flex justify-end lg:pt-10 pt-5">
           <button
+            id="submit"
             type="submit"
             class="whitespace-nowrap border-none text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
           >
@@ -369,6 +316,22 @@
     select: carModelSelect,
   });
 
+  new SlimSelect({
+    select: document.getElementById("door"),
+  });
+  new SlimSelect({
+    select: document.getElementById("transmission"),
+  });
+  new SlimSelect({
+    select: document.getElementById("drive_type"),
+  });
+  new SlimSelect({
+    select: document.getElementById("fuel"),
+  });
+  new SlimSelect({
+    select: document.getElementById("engine"),
+  });
+
   let selectedCarType;
   let selectedCarMake;
   let selectedCarModel;
@@ -383,7 +346,8 @@
   onSelectChange(carTypeSelect, "getCarMake");
   onSelectChange(carMakeSelect, "getCarModel");
 
-  setDealsDetails(dealType);
+  // setDealsDetails(dealType);
+  generateFeatures();
 
   function setDealsDetails(dealType) {
     setDealHeader(dealType, 70000);
@@ -546,14 +510,119 @@
   }
 
   function toggleAdvancedSettings() {
+    // document.getElementById("submit")
     if (advancedSettingsDiv.classList.contains("hidden")) {
+      setTimeout(() => {
+        advancedSettingsDiv.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 50);
+
       advancedSettingsDiv.classList.remove("hidden");
       advancedSettingsDiv.classList.add("flex");
+      document.getElementById("show").textContent = "Hide";
       return;
     }
-
     advancedSettingsDiv.classList.remove("flex");
     advancedSettingsDiv.classList.add("hidden");
+    document.getElementById("show").textContent = "Show";
+  }
+
+  function generateFeatures() {
+    const obj = {
+      android_auto: "Android Auto",
+      apple_carplay: "Apple Carplay",
+      backup_camera_assist: "Backup Camera Assist",
+      bluetooth: "Bluetooth",
+      heated_seats: "Heated Seats",
+      hill_assist_system: "Hill Assist System",
+      keyless_entry: "Keyless Entry",
+      keyless_ignition: "Keyless Ignition",
+      multimedia_telematics: "Multimedia Telematics",
+      premium_sound_system: "Premium Sound System",
+      satellite_radio: "Satellite Radio",
+      sunroof_moonroof: "Sunroof Moonroof",
+      leather_seats: "Leather Seats",
+      power_seats: "Power Seats",
+      traction_control: "Traction Control",
+      driver_assistance_confidence_pkg: "Driver Assistance Confidence Pkg",
+      "head-up_display": "Head-up Display",
+      lane_departure_warning: "Lane Departure Warning",
+      navigation_system: "Navigation System",
+      remote_start: "Remote Start",
+      blind_spot_monitor: "Blind Spot Monitor",
+      lane_assist: "Lane Assist",
+      parking_assist_system: "Parking Assist System",
+      stability_control: "Stability Control",
+      adaptive_cruise_control: "Adaptive Cruise Control",
+      alloy_wheels: "Alloy Wheels",
+      cooled_seats: "Cooled Seats",
+      "full_self-driving_capability": "Full Self-driving Capability",
+      third_row_seating: "Third Row Seating",
+      tow_hitch_package: "Tow Hitch Package",
+      rear_seat_entertainment: "Rear Seat Entertainment",
+    };
+
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        // Create the outer div container
+        const featureDiv = document.createElement("div");
+        featureDiv.className = "flex flex-col gap-1 min-w-[200px]";
+
+        // Create the paragraph element
+        const featureParagraph = document.createElement("p");
+        featureParagraph.className = "text-xs";
+        featureParagraph.textContent = obj[key];
+
+        // Create the label element
+        const featureLabel = document.createElement("label");
+        featureLabel.className = "switch";
+
+        // Create the input element
+        const featureInput = document.createElement("input");
+        featureInput.type = "checkbox";
+
+        // Create the span element for the slider
+        const featureSlider = document.createElement("span");
+        featureSlider.className = "slider";
+
+        // Create a hidden input field with a fixed value of '0'
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = key;
+        hiddenInput.value = "0";
+
+        // Add an event listener to toggle the checkbox value
+        featureInput.addEventListener("change", function () {
+          if (featureInput.checked) {
+            hiddenInput.value = "1";
+            return;
+          }
+          hiddenInput.value = "0";
+        });
+
+        // Append the elements to the container
+        featureLabel.appendChild(hiddenInput);
+        featureLabel.appendChild(featureInput);
+        featureLabel.appendChild(featureSlider);
+        featureDiv.appendChild(featureParagraph);
+        featureDiv.appendChild(featureLabel);
+        advancedSettingsDiv.appendChild(featureDiv);
+      }
+    }
+  }
+
+  function validateYear(ele) {
+    console.log(ele.value);
+    const val = parseInt(ele.value, 10);
+    if (val < 1900) {
+      return 1900;
+    }
+    if (val > 2100) {
+      return 2100;
+    }
+    return val;
   }
 </script>
 
@@ -561,7 +630,7 @@
   .top-section {
     position: relative;
   }
-  @media (min-width: 1024px) {
+  /* @media (min-width: 1024px) {
     .top-section::before {
       position: absolute;
       right: -10%;
@@ -578,7 +647,7 @@
         rgb(241, 246, 245) 100%
       );
     }
-  }
+  } */
   .shadow-blue {
     box-shadow:
       0 0 0 4px #93c5fdb0,
@@ -613,7 +682,8 @@
     --toggle-shadow-offset: 10px;
     --toggle-wider: 3em;
     --color-grey: #cccccc;
-    --color-green: #4296f4;
+    --color-green: #22d3ee;
+    cursor: pointer;
   }
 
   .slider {
@@ -670,6 +740,16 @@
         var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)
       )
     );
+  }
+
+  .slideIn {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .slideOut {
+    transform: translateY(100%);
+    opacity: 0;
   }
 </style>
 {% endblock %}
