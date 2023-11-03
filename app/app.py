@@ -94,6 +94,12 @@ def sell():
             carTypes = list(possibleSearchesCarModel.get('Models').values())[0]
             return jsonify(carTypes)
 
+        if action == 'getCarPrice':
+            f = request.form
+            for key in f.keys():
+                for value in f.getlist(key):
+                    print (key,":",value)
+
     return render_template('sell.html', carTypes=carTypes)
 
 # Entry point for the Flask app
