@@ -95,15 +95,6 @@
             />
           </div>
 
-          <div class="flex flex-col">
-            <label class="text-sm pb-1" for="carMileage">Highway MPG</label>
-            <input
-              type="number"
-              name="hwy_mpg"
-              placeholder="Enter Highway MPG"
-              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
-            />
-          </div>
 
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="carMileage">Highway MPG</label>
@@ -275,7 +266,7 @@
     <h4 class="pt-2 ml-8">Loading...</h4>
   </div>
 
-  <h2 id="price" class="hidden">The price is {{carPrice}}</h2>
+  <h2 id="price" class="hidden">The price is <span id='predict-price'></span></h2>
 </div>
 <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
 <link
@@ -367,6 +358,8 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.price) {
+              console.log(data.price)
+              document.getElementById('predict-price').textContent = data.price
               let priceSection = document.getElementById("price-section");
               priceSection.classList.add("flex");
               priceSection.classList.add("justify-center");

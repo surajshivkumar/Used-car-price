@@ -1,8 +1,10 @@
 import pandas as pd
+import numpy as np
 from flask import Flask, jsonify, render_template, request
 
 from utils import get_confg, get_sql_conn, carviews
 from searches import Search
+from model.predict import make_prediction
 
 import warnings
 
@@ -93,13 +95,24 @@ def sell():
             possibleSearchesCarModel = possibleSearches[(possibleSearches.car_make == carMake) & (possibleSearches.cd_body_style == car_type)].groupby(['car_make']).agg(Models=('cd_model', lambda x: list(set(x)))).to_dict()
             carTypes = list(possibleSearchesCarModel.get('Models').values())[0]
             return jsonify(carTypes)
-
+        features = pd.DataFrame()
         if action == 'getCarPrice':
             f = request.form
             for key in f.keys():
                 for value in f.getlist(key):
-                    print (key,":",value)
+                    features[key] = [value]
+                    #print (key,":",value)
 
+            print(features.columns)
+            features = features.rename(columns={'mileage_miles':'miles_driven',
+                                     'door':'doors' })
+            features['avg_mpg'] = 0.5 * (features['city_mpg'].astype(float) + features['hwy_mpg'].astype(float))
+            
+            # print(features.columns)
+            predictedPrice = make_prediction(features=features)
+            carPrice = {'price':predictedPrice}
+            return jsonify(carPrice)
+            #render_template('sell.html',carTypes=carTypes,carPrice = 0)
     return render_template('sell.html', carTypes=carTypes)
 
 # Entry point for the Flask app
