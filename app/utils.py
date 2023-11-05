@@ -14,34 +14,42 @@ def carviews():
         {
             'key': 'pickups',
             'value': 'Pickup',
+            'invertText': True,
         },
         {
             'key': 'suv',
             'value': 'SUV',
+            'invertText': True,
         },
         {
             'key': 'hatchback',
             'value': 'Hatchback',
+            'invertText': True,
         },
         {
             'key': 'coupe',
             'value': 'Coupe',
+            'invertText': False,
         },
         {
             'key': 'sedan',
             'value': 'Sedan',
+            'invertText': False,
         },
         {
             'key': 'convertible',
             'value': 'Convertible',
+            'invertText': False,
         },
         {
             'key': 'minivan',
             'value': 'Minivan',
+            'invertText': True,
         },
         {
             'key': 'wagon',
             'value': 'Wagon',
+            'invertText': False,
         },
     ]
 
