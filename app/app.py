@@ -54,9 +54,15 @@ def results_view():
         product_id = request.form.get('productId')
         car = search.getProduct(product_id)
         car = search.processResultsView(car)
+        
+        
         conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
+        features_car = pd.read_sql('''select * from car_features where cf_car_id ={} '''.format(int(product_id)),conn)
         similarSearches = pd.read_sql('''select cd_id,si_0,si_1,si_2 from similarity_matrix where cd_id = {id_} '''.format(id_=float(product_id)), conn)
         conn.close()
+        features_car = features_car.drop(['cf_car_id'],axis=1)
+        features_car.columns = [i.replace('cf_','') for i in features_car.columns]
+        print(features_car.T.to_dict()[0])
         similarSearches = similarSearches.drop(['cd_id'],axis=1)
         similarSearches = [int(val) for val in similarSearches.values[0]]
         conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
@@ -91,6 +97,7 @@ def sell():
     conn.close()
     
     doors = list(doors['doors'].values())
+    doors = [int(i.split(' ')[0]) for i in doors]
     transmission = list(transmission['transmission'].values())
     engine = list(engine['engine'].values())
     driveType = list(driveType['drive_type'].values())
@@ -120,7 +127,9 @@ def sell():
             features = features.rename(columns={'mileage_miles':'miles_driven',
                                      'door':'doors' })
             features['avg_mpg'] = 0.5 * (features['city_mpg'].astype(float) + features['hwy_mpg'].astype(float))
+            print(features.columns.tolist())
             predictedPrice = make_prediction(features=features)
+            
             return jsonify({'price': predictedPrice})
             # return jsonify({'price': 10101})
         
