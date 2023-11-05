@@ -31,6 +31,14 @@
   );
 }
 
+.bg-gradient-2 {
+  background: linear-gradient(
+    70deg,
+    rgb(247, 240, 237) 0%,
+    rgb(241, 246, 245) 75%
+  );
+}
+
 .bg-pickups:hover {
   background-color: #b8b3bb;
 }

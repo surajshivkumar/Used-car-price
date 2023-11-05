@@ -65,9 +65,13 @@
           alt=""
           class="lazy-image w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
         />
+        {% if car.invertText == True %}
         <p class="text-center pt-2 group-hover:text-white font-semibold">
           {{car.value}}
         </p>
+        {% endif %} {% if car.invertText == False %}
+        <p class="text-center pt-2 font-semibold">{{car.value}}</p>
+        {% endif %}
       </a>
       {% endfor %}
     </div>

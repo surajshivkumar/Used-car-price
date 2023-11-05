@@ -9,7 +9,7 @@ content %}
         <img
           data-src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
           alt=""
-          class="lazy-image w-full h-full object-cover group-hover:scale-125 transition-transform duration-500"
+          class="lazy-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
       </div>
 
@@ -64,7 +64,7 @@ content %}
             DETAILS
           </h4>
         </div>
-        <div id="features-detail" class="animate-fade-in">
+        <div id="features-detail" class="animate__animated animate__fadeIn">
           <div class="lg:pt-12 pt-6">
             <h4 class="font-semibold text-center">HIGHLIGHTED FEATURES</h4>
             <div
@@ -73,7 +73,10 @@ content %}
             ></div>
           </div>
         </div>
-        <div id="details-detail" class="hidden animate-fade-in">
+        <div
+          id="details-detail"
+          class="hidden animate__animated animate__fadeIn"
+        >
           <div class="lg:pt-12 pt-6">
             <h4 class="font-semibold text-center">BASICS</h4>
             <div
@@ -104,13 +107,13 @@ content %}
         <div class="grid grid-cols-3 gap-6">
           {% for car in similarCars %}
           <a
-            class="shadow-md rounded-lg hover:shadow-lg transition-transform cursor-pointer bg-white overflow-hidden"
+            class="shadow-md rounded-lg hover:shadow-lg hover:scale-105 group hover:delay-75 transition-transform cursor-pointer bg-white overflow-hidden"
             href="javascript:void(0);"
             onclick="submitForm('{{ car.id }}')"
           >
             <img
               data-src="https://storage.googleapis.com/cdn-cloudstore/results/{{car.path}}"
-              class="lazy-image w-full object-cover aspect-video duration-500 h-48 rounded-t-lg"
+              class="lazy-image w-full object-cover aspect-video duration-500 h-48 rounded-t-lg group-hover:scale-110"
               alt="Lazy-loaded Image"
             />
             <div class="flex justify-between lg:p-4 p-2 bg-white relative">
