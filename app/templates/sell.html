@@ -154,8 +154,9 @@
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
-              <option value="2">2</option>
-              <option value="4">4</option>
+              {% for door in doorList %}
+              <option value="{{ door }}">{{ door }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -167,8 +168,9 @@
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
-              <option value="automatic">Automatic</option>
-              <option value="gear">Gear</option>
+              {% for transmission in transmissionList %}
+              <option value="{{ door }}">{{ transmission }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -180,7 +182,9 @@
               class="border rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
-              <option value="4 cyl">4 Cyl</option>
+              {% for engine in engineList %}
+              <option value="{{ door }}">{{ engine }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -192,7 +196,9 @@
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
-              <option value="rwd">RWD</option>
+              {% for driveType in driveTypeList %}
+              <option value="{{ door }}">{{ driveType }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -204,7 +210,9 @@
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             >
               <option value="" disabled selected>Please select</option>
-              <option value="gasoline">Gasoline</option>
+              {% for fuelType in fuelTypeList %}
+              <option value="{{ door }}">{{ fuelType }}</option>
+              {% endfor %}
             </select>
           </div>
         </div>
@@ -283,7 +291,7 @@
 
   <!-- <div class="bg-blue-300 text-blue-300 text-green-300 bg-green-300 text-yellow-300 bg-yellow-300 bg-red-300 text-red-300"></div> -->
 
-  <div class="lg:py-24 py-12">
+  <!-- <div class="lg:py-24 py-12">
     <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-6 container">
       <div class="flex flex-col justify-center lg:items-start items-center">
         <div>
@@ -310,16 +318,17 @@
         />
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div
     id="price-section"
-    class="hidden justify-center items-center flex-col container lg:pb-24 pb-12"
+    class="hidden justify-center items-center flex-col container lg:pb-24 pb-12 bg-orange-gradient"
   >
     <div
       id="loading"
-      class="flex flex-col items-center bg-shadow bg-gradient-2 w-full rounded-lg h-[260px]"
+      class="flex flex-col items-center w-full bg-shadow rounded-lg h-[260px]"
     >
+      <!-- bg-shadow bg-cyan-50 rounded-lg -->
       <img
         data-src="https://storage.googleapis.com/cdn-cloudstore/loading.gif"
         alt="gif"
@@ -330,7 +339,7 @@
 
     <div
       id="price-text-section"
-      class="hidden bg-shadow bg-gradient-2 justify-between items-center lg:py-24 py-12 lg:px-12 px-6 rounded-lg w-full h-[260px]"
+      class="hidden justify-between items-center lg:py-24 py-12 lg:px-12 px-6 w-full bg-shadow rounded-lg h-[260px]"
     >
       <h2>Estimated Price:</h2>
       <h2 class="text-orange-600" id="predicted-price"></h2>

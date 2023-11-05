@@ -85,7 +85,7 @@ def sell():
     doors = pd.read_sql('''select distinct cd_doors as doors from car_details where cd_doors != 'NaN' ''', conn).to_dict() 
     transmission = pd.read_sql('''select distinct cd_transmission as transmission from car_details where cd_transmission != 'NaN' ''', conn).to_dict() 
     engine = pd.read_sql('''select distinct cd_engine as engine from car_details where cd_engine != 'NaN' ''', conn).to_dict() 
-    drive_type = pd.read_sql('''select distinct cd_drive_type as drive_type from car_details where cd_drive_type != 'NaN' ''', conn).to_dict() 
+    driveType = pd.read_sql('''select distinct cd_drive_type as drive_type from car_details where cd_drive_type != 'NaN' ''', conn).to_dict() 
     fuel = pd.read_sql('''select distinct cd_fuel as fuel from car_details where cd_fuel!='NaN' ''',conn).to_dict()
     # SQL query truncated for brevity
     conn.close()
@@ -93,7 +93,7 @@ def sell():
     doors = list(doors['doors'].values())
     transmission = list(transmission['transmission'].values())
     engine = list(engine['engine'].values())
-    drive_type = list(drive_type['drive_type'].values())
+    driveType = list(driveType['drive_type'].values())
     fuel = list(fuel['fuel'].values())
     
     # Handle POST actions for selling a car
@@ -124,7 +124,7 @@ def sell():
             return jsonify({'price': predictedPrice})
             # return jsonify({'price': 10101})
         
-    return render_template('sell.html', carTypes=carTypes)
+    return render_template('sell.html', carTypes=carTypes, doorList=doors, transmissionList=transmission, engineList=engine, driveTypeList=driveType, fuelTypeList=fuel)
 
 # Entry point for the Flask app
 if __name__ == "__main__":
