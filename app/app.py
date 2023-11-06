@@ -63,7 +63,7 @@ def results_view():
         conn.close()
         features_car = features_car.drop(['cf_car_id'],axis=1)
         features_car.columns = [i.replace('cf_','') for i in features_car.columns]
-        print(features_car.T.to_dict()[0])
+        features_car = features_car.T.to_dict()[0]
         similarSearches = similarSearches.drop(['cd_id'],axis=1)
         similarSearches = [int(val) for val in similarSearches.values[0]]
         similarSearches = random.sample(similarSearches,3)
@@ -73,7 +73,7 @@ def results_view():
         similarCars['path'] = similarCars.path.apply(lambda car: car.split('.')[0] + '.webp')
         similarCars = similarCars.T.to_dict()
         similarCars = [similarCars[i] for i in similarCars.keys()]
-        return render_template('results-view.html', car=car,similarCars=similarCars)
+        return render_template('results-view.html', carDetails=car,similarCars=similarCars, featuresCar=features_car)
 
 @app.route('/sell',methods=['GET', 'POST'])
 def sell():    

@@ -245,104 +245,24 @@
     </div>
   </div>
 
-  <!-- <div class="bg-orange-gradient lg:py-24 py-12">
-  <div class="container">
-    <p class="font-semibold text-center">PRICE BREAKDOWN</p>
-    <p class="text-center pt-2">
-      This analysis is based on a comparison of 28 vehicles with similar
-      features and mileage in your local area.
-    </p>
-    <div>
-      <div id="deal-header" class="grid grid-cols-4 text-center lg:pt-12 pt-6">
-        <div class="great"></div>
-        <div class="good"></div>
-        <div class="fair"></div>
-        <div class="above"></div>
-      </div>
-      <div id="deal-main" class="grid grid-cols-4 -mt-7">
-        <div class="great pt-4 text-center relative">
-          <div class="w-full h-2 bg-gray-300 rounded-l-lg"></div>
-          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
-            GREAT DEAL
-          </p>
-        </div>
-        <div class="good pt-4 text-center relative">
-          <div class="w-full h-2 bg-gray-300"></div>
-          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
-            GOOD DEAL
-          </p>
-        </div>
-        <div class="fair pt-4 text-center relative">
-          <div class="w-full h-2 bg-gray-300"></div>
-          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
-            FAIR PRICE
-          </p>
-        </div>
-        <div class="above pt-4 text-center relative">
-          <div class="w-full h-2 bg-gray-300 rounded-r-lg"></div>
-          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
-            ABOVE MARKET
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
+  <!-- DO NO REMOVE THIS COMMENTED CODE -->
   <!-- <div class="bg-blue-300 text-blue-300 text-green-300 bg-green-300 text-yellow-300 bg-yellow-300 bg-red-300 text-red-300"></div> -->
-
-  <!-- <div class="lg:py-24 py-12">
-    <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-6 container">
-      <div class="flex flex-col justify-center lg:items-start items-center">
-        <div>
-          <h2>
-            Are you looking For a
-            <span class="text-orange-600">New Ride?</span>
-          </h2>
-          <p class="lg:pt-3 pt-1.5">Search from our vast fleet of vehicles</p>
-        </div>
-        <a href="" class="lg:pt-6 pt-3">
-          <button
-            type="submit"
-            class="whitespace-nowrap border-none text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
-          >
-            Buy Car
-          </button>
-        </a>
-      </div>
-      <div class="flex justify-center">
-        <img
-          data-src="../static/assets/landing.webp"
-          alt="gif"
-          class="lazy-image w-96"
-        />
-      </div>
-    </div>
-  </div> -->
 
   <div
     id="price-section"
-    class="hidden justify-center items-center flex-col container lg:pb-24 pb-12 bg-orange-gradient"
+    class="hidden fixed bottom-0 bg-gradient-2 w-full bg-shadow rounded-t-lg lg:py-3 py-1.5 min-h-[130px]"
   >
-    <div
-      id="loading"
-      class="flex flex-col items-center w-full bg-shadow rounded-lg h-[260px]"
-    >
-      <!-- bg-shadow bg-cyan-50 rounded-lg -->
-      <img
-        data-src="https://storage.googleapis.com/cdn-cloudstore/loading.gif"
-        alt="gif"
-        class="lazy-image w-64 h-48"
-      />
-      <h4 class="pt-2 ml-8 italic">Loading...</h4>
-    </div>
-
-    <div
-      id="price-text-section"
-      class="hidden justify-between items-center lg:py-24 py-12 lg:px-12 px-6 w-full bg-shadow rounded-lg h-[260px]"
-    >
-      <h2>Estimated Price:</h2>
-      <h2 class="text-orange-600" id="predicted-price"></h2>
+    <div class="container flex justify-between items-center">
+      <h3 class="font-semibold">Estimated Price:</h3>
+      <div>
+        <img
+          data-src="https://storage.googleapis.com/cdn-cloudstore/loading.gif"
+          alt="gif"
+          class="lazy-image w-40"
+          id="loading"
+        />
+        <h2 class="text-orange-600 hidden" id="predicted-price"></h2>
+      </div>
     </div>
   </div>
 
@@ -408,6 +328,7 @@
     let dealMainDiv = document.getElementById("deal-main");
     let advancedSettingsDiv = document.getElementById("advanced-settings");
     let sellFormDiv = document.getElementById("sell-form");
+    let form = document.getElementById("form");
 
     let slimSelectType = new SlimSelect({
       select: carTypeSelect,
@@ -438,6 +359,8 @@
     let selectedCarType;
     let selectedCarMake;
     let selectedCarModel;
+    let isFormSubmitted = false;
+
     carModelSelect.addEventListener("change", function () {
       selectedCarModel = carModelSelect.value;
     });
@@ -458,7 +381,6 @@
     }
 
     function formSubmitListener() {
-      let form = document.getElementById("form");
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         const formData = new FormData(form);
@@ -469,14 +391,12 @@
           .then((response) => response.json())
           .then((data) => {
             let priceSectionDiv = document.getElementById("price-section");
-            let priceTextDiv = document.getElementById("price-text-section");
             let loadingDiv = document.getElementById("loading");
             let predictedPriceElement =
               document.getElementById("predicted-price");
 
             // reset price loading
-            priceTextDiv.classList.add("hidden");
-            priceTextDiv.classList.remove("flex");
+            predictedPriceElement.classList.add("hidden");
             loadingDiv.classList.remove("hidden");
 
             predictedPriceElement.textContent = getFormattedPrice(data.price);
@@ -486,11 +406,12 @@
 
             scrollToSection(priceSectionDiv, true, -200);
 
+            const loadingDelay = isFormSubmitted ? 1000 : 3500;
             setTimeout(() => {
-              priceTextDiv.classList.remove("hidden");
-              priceTextDiv.classList.add("flex");
+              isFormSubmitted = true;
               loadingDiv.classList.add("hidden");
-            }, 3500);
+              predictedPriceElement.classList.remove("hidden");
+            }, loadingDelay);
           });
       });
     }
@@ -575,51 +496,6 @@
       return titleCaseWords.join(" ");
     }
 
-    function setDealMain(type) {
-      const parentDiv = dealMainDiv.querySelector(`.${type}`);
-      if (parentDiv) {
-        const childDiv = parentDiv.querySelector("div");
-        childDiv.classList.remove("bg-gray-300");
-        childDiv.classList.add(`bg-${dealMap[type].color}-300`);
-        const pElement = parentDiv.querySelector("p");
-        pElement.classList.remove("text-gray-500");
-        pElement.classList.add(`text-${dealMap[type].color}-300`);
-      }
-    }
-    function setDealHeader(type, price) {
-      const parentDiv = dealHeaderDiv.querySelector(`.${type}`);
-      if (parentDiv) {
-        const pElement1 = document.createElement("p");
-        pElement1.classList.add("font-semibold", "lg:text-sm", "text-xs");
-        pElement1.textContent = "THIS VEHICLE";
-
-        const pElement2 = document.createElement("p");
-        pElement2.classList.add(
-          "lg:text-base",
-          "text-sm",
-          "font-semibold",
-          "pb-2"
-        );
-        pElement2.textContent = `$${price}`;
-
-        const circleDiv = document.createElement("div");
-        circleDiv.classList.add(
-          "bg-white",
-          `shadow-${dealMap[type].color}`,
-          "rounded-full",
-          "w-4",
-          "h-4",
-          "mx-auto",
-          "z-10",
-          "relative"
-        );
-
-        parentDiv.appendChild(pElement1);
-        parentDiv.appendChild(pElement2);
-        parentDiv.appendChild(circleDiv);
-      }
-    }
-
     function toggleAdvancedSettings() {
       // document.getElementById("submit")
       if (advancedSettingsDiv.classList.contains("hidden")) {
@@ -663,11 +539,15 @@
           hiddenInput.value = 0;
 
           featureInput.addEventListener("change", function () {
-            if (featureInput.checked) {
-              hiddenInput.value = 1;
-              return;
+            hiddenInput.value = featureInput.checked ? 1 : 0;
+
+            console.log(isFormSubmitted);
+            if (isFormSubmitted) {
+              const submitButton = document.getElementById("submit");
+              // form.querySelector('input[type="submit"]');
+              console.log(submitButton);
+              submitButton.click();
             }
-            hiddenInput.value = 0;
           });
 
           featureLabel.appendChild(hiddenInput);
@@ -704,6 +584,51 @@
         behavior: "smooth",
       });
     }
+
+    // function setDealMain(type) {
+    //   const parentDiv = dealMainDiv.querySelector(`.${type}`);
+    //   if (parentDiv) {
+    //     const childDiv = parentDiv.querySelector("div");
+    //     childDiv.classList.remove("bg-gray-300");
+    //     childDiv.classList.add(`bg-${dealMap[type].color}-300`);
+    //     const pElement = parentDiv.querySelector("p");
+    //     pElement.classList.remove("text-gray-500");
+    //     pElement.classList.add(`text-${dealMap[type].color}-300`);
+    //   }
+    // }
+    // function setDealHeader(type, price) {
+    //   const parentDiv = dealHeaderDiv.querySelector(`.${type}`);
+    //   if (parentDiv) {
+    //     const pElement1 = document.createElement("p");
+    //     pElement1.classList.add("font-semibold", "lg:text-sm", "text-xs");
+    //     pElement1.textContent = "THIS VEHICLE";
+
+    //     const pElement2 = document.createElement("p");
+    //     pElement2.classList.add(
+    //       "lg:text-base",
+    //       "text-sm",
+    //       "font-semibold",
+    //       "pb-2"
+    //     );
+    //     pElement2.textContent = `$${price}`;
+
+    //     const circleDiv = document.createElement("div");
+    //     circleDiv.classList.add(
+    //       "bg-white",
+    //       `shadow-${dealMap[type].color}`,
+    //       "rounded-full",
+    //       "w-4",
+    //       "h-4",
+    //       "mx-auto",
+    //       "z-10",
+    //       "relative"
+    //     );
+
+    //     parentDiv.appendChild(pElement1);
+    //     parentDiv.appendChild(pElement2);
+    //     parentDiv.appendChild(circleDiv);
+    //   }
+    // }
   </script>
 
   <style>
@@ -825,3 +750,47 @@
   </style>
   {% endblock %}
 </div>
+
+<!-- <div class="bg-orange-gradient lg:py-24 py-12">
+  <div class="container">
+    <p class="font-semibold text-center">PRICE BREAKDOWN</p>
+    <p class="text-center pt-2">
+      This analysis is based on a comparison of 28 vehicles with similar
+      features and mileage in your local area.
+    </p>
+    <div>
+      <div id="deal-header" class="grid grid-cols-4 text-center lg:pt-12 pt-6">
+        <div class="great"></div>
+        <div class="good"></div>
+        <div class="fair"></div>
+        <div class="above"></div>
+      </div>
+      <div id="deal-main" class="grid grid-cols-4 -mt-7">
+        <div class="great pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300 rounded-l-lg"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            GREAT DEAL
+          </p>
+        </div>
+        <div class="good pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            GOOD DEAL
+          </p>
+        </div>
+        <div class="fair pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            FAIR PRICE
+          </p>
+        </div>
+        <div class="above pt-4 text-center relative">
+          <div class="w-full h-2 bg-gray-300 rounded-r-lg"></div>
+          <p class="pt-4 lg:text-sm text-xs font-semibold text-gray-500">
+            ABOVE MARKET
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
