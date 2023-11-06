@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import random
 from flask import Flask, jsonify, render_template, request
 
 from utils import get_confg, get_sql_conn, carviews
@@ -58,13 +59,14 @@ def results_view():
         
         conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
         features_car = pd.read_sql('''select * from car_features where cf_car_id ={} '''.format(int(product_id)),conn)
-        similarSearches = pd.read_sql('''select cd_id,si_0,si_1,si_2 from similarity_matrix where cd_id = {id_} '''.format(id_=float(product_id)), conn)
+        similarSearches = pd.read_sql('''select * from similarity_matrix where cd_id = {id_} '''.format(id_=float(product_id)), conn)
         conn.close()
         features_car = features_car.drop(['cf_car_id'],axis=1)
         features_car.columns = [i.replace('cf_','') for i in features_car.columns]
         print(features_car.T.to_dict()[0])
         similarSearches = similarSearches.drop(['cd_id'],axis=1)
         similarSearches = [int(val) for val in similarSearches.values[0]]
+        similarSearches = random.sample(similarSearches,3)
         conn = get_sql_conn(config['sql-prod'], config.get('sql-prod', 'bi_db'))
         similarCars = pd.read_sql('''select cd_id as id, cd_year as year, cd_make as make,cd_model as model,cd_car_price as price,cd_path_ as path from car_details where cd_id in {ids} '''.format(ids=tuple(similarSearches)), conn)
         conn.close()
@@ -127,7 +129,6 @@ def sell():
             features = features.rename(columns={'mileage_miles':'miles_driven',
                                      'door':'doors' })
             features['avg_mpg'] = 0.5 * (features['city_mpg'].astype(float) + features['hwy_mpg'].astype(float))
-            print(features.columns.tolist())
             predictedPrice = make_prediction(features=features)
             
             return jsonify({'price': predictedPrice})
