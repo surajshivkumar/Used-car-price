@@ -8,13 +8,17 @@
   <div
     class="container h-full grid lg:grid-cols-2 grid-cols-1 lg:gap-24 gap-12 items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
   >
-    <div class="flex flex-col">
-      <h1>Looking For a <span class="text-orange-600">New Ride?</span></h1>
-      <p class="lg:pt-3 pt-1.5 text-slate-500">
+    <div>
+      <h1 class="lg:text-start text-center">
+        Looking For a <span class="text-orange-600">New Ride?</span>
+      </h1>
+      <p class="lg:text-start text-center lg:pt-3 pt-1.5 text-slate-500">
         Search from our vast fleet of vehicles
       </p>
 
-      <div class="autoComplete_wrapper lg:pt-6 pt-3">
+      <div
+        class="autoComplete_wrapper !flex lg:justify-start justify-center lg:pt-6 pt-3"
+      >
         <form action="/results" method="POST" id="myForm">
           <input
             id="autoComplete"
@@ -26,7 +30,7 @@
             autocapitalize="off"
             name="search-term"
             value=""
-            class="!border-orange-600 !text-orange-600 !rounded-lg"
+            class="!border-orange-600 !text-orange-600 !rounded-lg mx-auto"
           />
           <input type="hidden" name="type" value="search" />
         </form>
@@ -36,7 +40,7 @@
       <img
         src="../static/assets/landing.webp"
         alt=""
-        class="w-full aspect-[26/23]"
+        class="w-full max-w-lg aspect-[26/23]"
       />
     </div>
   </div>
@@ -53,10 +57,12 @@
       />
       <input type="hidden" name="type" value="carType" />
     </form>
-    <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-6 gap-3 lg:pt-12 pt-6">
+    <div
+      class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-6 gap-3 lg:pt-12 pt-6"
+    >
       {% for car in carTypes %}
       <a
-        class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group bg-{{car.key}} hover:scale-105 transition-transform"
+        class="shadow-md rounded-xl lg:p-4 p-2 hover:shadow-lg cursor-pointer bg-white group bg-{{car.key}} hover:scale-105 transition-transform"
         href="javascript:void(0);"
         onclick="submitForm('{{ car.value }}')"
       >
@@ -66,7 +72,9 @@
           class="lazy-image w-full rounded-xl group-hover:scale-110 aspect-[49/37]"
         />
         {% if car.invertText == True %}
-        <p class="text-center pt-2 group-hover:text-white font-semibold">
+        <p
+          class="text-center pt-2 group-hover:text-white font-semibold lg:text-lg text-sm"
+        >
           {{car.value}}
         </p>
         {% endif %} {% if car.invertText == False %}
@@ -79,8 +87,8 @@
 </div>
 <div class="lg:py-24 py-12">
   <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-24 gap-12 container">
-    <div class="flex flex-col justify-center lg:items-start items-center">
-      <div>
+    <div class="flex flex-col justify-center">
+      <div class="lg:text-start text-center">
         <h2>
           Are you considering
           <span class="text-orange-600">selling your car?</span>
@@ -89,20 +97,22 @@
           Get an instant appraisal in as little as <b>2 minutes</b>
         </p>
       </div>
-      <a href="/sell" class="lg:pt-6 pt-3">
-        <button
-          type="submit"
-          class="whitespace-nowrap border-none text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
-        >
-          Sell Car
-        </button>
-      </a>
+      <div class="flex lg:justify-start justify-center">
+        <a href="/sell" class="lg:pt-6 pt-3">
+          <button
+            type="submit"
+            class="whitespace-nowrap border-none text-center py-2 lg:px-5 px-3 transition lg:text-lg text-base font-semibold rounded-lg bg-cyan-400 hover:bg-cyan-600 text-white"
+          >
+            Sell Car
+          </button>
+        </a>
+      </div>
     </div>
     <div class="flex justify-center">
       <img
         data-src="https://storage.googleapis.com/cdn-cloudstore/buy/sell-car.webp"
         alt="gif"
-        class="lazy-image w-80 aspect-[64/57]"
+        class="lazy-image w-full max-w-xs aspect-[64/57]"
       />
     </div>
   </div>

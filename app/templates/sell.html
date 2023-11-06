@@ -1,24 +1,24 @@
 {% extends "base.html" %} {% block title %}Sell{% endblock %} {% block content
 %}
-<div class="h-full">
+<div id="sell-section" class="h-full">
   <div
     class="lg:min-h-[calc(100vh-128px)] flex justify-center items-center relative container lg:py-24 py-12"
   >
     <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-6">
-      <div class="flex flex-col justify-center lg:items-start items-center">
+      <div class="flex flex-col justify-center lg:text-start text-center">
         <h1 class="mb-3">
           See what your <span class="text-orange-600">car is worth</span>
         </h1>
         <p class="mb-5 text-slate-500">
-          Get an instant appraisal in as little as 2 minutes.
+          Get an instant appraisal in as little as <b>10 seconds.</b>
         </p>
       </div>
 
       <div class="flex items-center justify-center">
         <img
-          data-src="https://storage.googleapis.com/cdn-cloudstore/sell/sell-landing.webp"
+          src="https://storage.googleapis.com/cdn-cloudstore/sell/sell-landing.webp"
           alt="gif"
-          class="lazy-image w-full"
+          class="w-full max-w-xl aspect-[4/3]"
         />
       </div>
     </div>
@@ -34,7 +34,7 @@
 
   <div
     id="sell-form"
-    class="flex items-center justify-center lg:py-24 py-12 bg-orange-gradient"
+    class="flex items-center justify-center lg:py-24 py-12 bg-orange-gradient lg:min-h-[calc(100vh-128px)]"
   >
     <div class="container">
       <form action="/sell" method="post" class="hidden w-full">
@@ -72,6 +72,7 @@
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="carMake">Car Make</label>
             <select
+              required
               id="carMake"
               name="make"
               disabled
@@ -89,6 +90,7 @@
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="carModel">Car Model</label>
             <select
+              required
               id="carModel"
               name="model"
               disabled
@@ -103,6 +105,7 @@
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="carMileage">Car Mileage</label>
             <input
+              required
               type="number"
               name="mileage_miles"
               id="carMileage"
@@ -112,8 +115,9 @@
           </div>
 
           <div class="flex flex-col">
-            <label class="text-sm pb-1" for="carMileage">City MPG</label>
+            <label class="text-sm pb-1" for="city_mpg">City MPG</label>
             <input
+              required
               type="number"
               name="city_mpg"
               placeholder="Enter City MPG"
@@ -122,8 +126,9 @@
           </div>
 
           <div class="flex flex-col">
-            <label class="text-sm pb-1" for="carMileage">Highway MPG</label>
+            <label class="text-sm pb-1" for="hwy_mpg">Highway MPG</label>
             <input
+              required
               type="number"
               name="hwy_mpg"
               placeholder="Enter Highway MPG"
@@ -131,24 +136,26 @@
             />
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col relative">
             <label class="text-sm pb-1" for="carYear">Car Year</label>
             <input
-              type="number"
-              name="year"
-              min="1900"
-              max="2100"
-              step="1"
-              onblur="this.value = validateYear(this);"
-              id="carYear"
+              type="text"
+              required
+              value=""
               placeholder="YYYY"
-              class="px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
+              name="year"
+              autocomplete="off"
+              class="cursor-pointer yearpicker px-2 border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
             />
+            <span class="material-symbols-rounded absolute right-0 top-8">
+              expand_more
+            </span>
           </div>
 
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="door">Car Doors</label>
             <select
+              required
               id="door"
               name="door"
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
@@ -163,6 +170,7 @@
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="transmission">Transmission</label>
             <select
+              required
               id="transmission"
               name="transmission"
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
@@ -191,6 +199,7 @@
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="drive_type">Drive Type</label>
             <select
+              required
               id="drive_type"
               name="drive_type"
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
@@ -205,6 +214,7 @@
           <div class="flex flex-col">
             <label class="text-sm pb-1" for="fuel">Fuel</label>
             <select
+              required
               id="fuel"
               name="fuel"
               class="border border-gray-300 rounded focus:!border-cyan-400 focus-visible:outline-cyan-400 hover:border-cyan-400 h-9"
@@ -247,7 +257,6 @@
 
   <!-- DO NO REMOVE THIS COMMENTED CODE -->
   <!-- <div class="bg-blue-300 text-blue-300 text-green-300 bg-green-300 text-yellow-300 bg-yellow-300 bg-red-300 text-red-300"></div> -->
-
   <div
     id="price-section"
     class="hidden fixed bottom-0 bg-gradient-2 w-full bg-shadow rounded-t-lg lg:py-3 py-1.5 min-h-[130px]"
@@ -261,16 +270,29 @@
           class="lazy-image w-40"
           id="loading"
         />
-        <h2 class="text-orange-600 hidden" id="predicted-price"></h2>
+        <div id="result" class="hidden">
+          <h2 class="text-orange-600" id="predicted-price"></h2>
+          <p id="previous-section" class="hidden">
+            Difference: <span id="previous-difference"></span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
 
+  <script
+    src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+    crossorigin="anonymous"
+  ></script>
   <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
   <link
     rel="stylesheet"
     href="https://unpkg.com/slim-select@latest/dist/slimselect.css"
   />
+  <link rel="stylesheet" href="../static/yearpicker.css" />
+  <script src="../static/yearpicker.js"></script>
+
   <script>
     const dealType = "above";
     const dealMap = {
@@ -360,6 +382,7 @@
     let selectedCarMake;
     let selectedCarModel;
     let isFormSubmitted = false;
+    let previousPrice = null;
 
     carModelSelect.addEventListener("change", function () {
       selectedCarModel = carModelSelect.value;
@@ -367,6 +390,16 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       formSubmitListener();
+
+      $(".yearpicker").yearpicker({
+        startYear: 2011,
+        endYear: 2023,
+        onChange: () => {
+          if (isFormSubmitted) {
+            checkAndsubmitForm();
+          }
+        },
+      });
     });
 
     onSelectChange(carTypeSelect, "getCarMake");
@@ -374,6 +407,7 @@
 
     // setDealsDetails(dealType);
     generateFeatures();
+    allSelectChangeListerner();
 
     function setDealsDetails(dealType) {
       setDealHeader(dealType, 70000);
@@ -392,28 +426,63 @@
           .then((data) => {
             let priceSectionDiv = document.getElementById("price-section");
             let loadingDiv = document.getElementById("loading");
+            let resultDiv = document.getElementById("result");
             let predictedPriceElement =
               document.getElementById("predicted-price");
 
             // reset price loading
-            predictedPriceElement.classList.add("hidden");
+            resultDiv.classList.add("hidden");
             loadingDiv.classList.remove("hidden");
 
-            predictedPriceElement.textContent = getFormattedPrice(data.price);
+            if (isFormSubmitted) {
+              previousPrice = predictedPriceElement.textContent;
+            }
+            const predictedPrice = data.price;
+            predictedPriceElement.textContent =
+              getFormattedPrice(predictedPrice);
+            if (previousPrice) {
+              setPriceDifference(predictedPrice);
+            }
 
+            // Add/Remove Classes
             priceSectionDiv.classList.add("flex");
             priceSectionDiv.classList.remove("hidden");
-
-            scrollToSection(priceSectionDiv, true, -200);
-
             const loadingDelay = isFormSubmitted ? 1000 : 3500;
             setTimeout(() => {
               isFormSubmitted = true;
               loadingDiv.classList.add("hidden");
-              predictedPriceElement.classList.remove("hidden");
+              resultDiv.classList.remove("hidden");
             }, loadingDelay);
           });
       });
+    }
+
+    function setPriceDifference(predictedPrice) {
+      let previousSectionTag = document?.getElementById("previous-section");
+      const formatPreviousPrice = parseFloat(
+        previousPrice.replace(/[$,]/g, "")
+      );
+      const difference = parseInt(predictedPrice - formatPreviousPrice);
+
+      let color = "";
+      let formattedDifference = null;
+      if (difference > 0) {
+        color = "text-green-300";
+        formattedDifference = `+${getFormattedPrice(difference)}`;
+      } else if (difference < 0) {
+        color = "text-red-300";
+        formattedDifference = `${getFormattedPrice(difference)}`;
+      } else {
+        color = "text-black";
+        formattedDifference = "-";
+      }
+      let prevDiffElement = document?.getElementById("previous-difference");
+      if (previousSectionTag) {
+        prevDiffElement.textContent = formattedDifference;
+        prevDiffElement.className = "";
+        prevDiffElement.classList.add(color);
+        previousSectionTag.classList?.remove("hidden");
+      }
     }
 
     function getFormattedPrice(val) {
@@ -474,6 +543,31 @@
               nextSelect.enable();
             })
             .catch((error) => console.error(error));
+        }
+      });
+    }
+
+    function allSelectChangeListerner() {
+      const selectElements = document.querySelectorAll("select");
+      selectElements.forEach((ele) => {
+        if (ele.id === "carType" || ele.id === "carMake") {
+          return;
+        }
+
+        ele.addEventListener("change", function () {
+          checkAndsubmitForm();
+        });
+      });
+
+      let timeout;
+      const form = document.getElementById("form");
+      form.addEventListener("input", function (event) {
+        const target = event.target;
+        if (target.tagName === "INPUT") {
+          clearTimeout(timeout);
+          timeout = setTimeout(function () {
+            checkAndsubmitForm();
+          }, 750);
         }
       });
     }
@@ -540,14 +634,7 @@
 
           featureInput.addEventListener("change", function () {
             hiddenInput.value = featureInput.checked ? 1 : 0;
-
-            console.log(isFormSubmitted);
-            if (isFormSubmitted) {
-              const submitButton = document.getElementById("submit");
-              // form.querySelector('input[type="submit"]');
-              console.log(submitButton);
-              submitButton.click();
-            }
+            checkAndsubmitForm();
           });
 
           featureLabel.appendChild(hiddenInput);
@@ -560,16 +647,11 @@
       }
     }
 
-    function validateYear(ele) {
-      console.log(ele.value);
-      const val = parseInt(ele.value, 10);
-      if (val < 1900) {
-        return 1900;
+    function checkAndsubmitForm() {
+      if (isFormSubmitted && form.reportValidity()) {
+        const submitButton = document.getElementById("submit");
+        submitButton.click();
       }
-      if (val > 2100) {
-        return 2100;
-      }
-      return val;
     }
 
     function scrollToSection(ele, isDefined = false, offset = 0) {
