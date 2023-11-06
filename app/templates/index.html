@@ -6,9 +6,9 @@
 />
 <div class="top-section">
   <div
-    class="container h-full grid grid-cols-2 lg:gap-24 gap-12 items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
+    class="container h-full grid lg:grid-cols-2 grid-cols-1 lg:gap-24 gap-12 items-center justify-center lg:pt-24 pt-12 lg:pb-32 pb-16"
   >
-    <div>
+    <div class="flex flex-col">
       <h1>Looking For a <span class="text-orange-600">New Ride?</span></h1>
       <p class="lg:pt-3 pt-1.5 text-slate-500">
         Search from our vast fleet of vehicles
@@ -53,7 +53,7 @@
       />
       <input type="hidden" name="type" value="carType" />
     </form>
-    <div class="grid grid-cols-4 lg:gap-6 gap-3 lg:pt-12 pt-6">
+    <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-6 gap-3 lg:pt-12 pt-6">
       {% for car in carTypes %}
       <a
         class="shadow-md rounded-xl p-4 hover:shadow-lg cursor-pointer bg-white group bg-{{car.key}} hover:scale-105 transition-transform"
@@ -78,8 +78,8 @@
   </div>
 </div>
 <div class="lg:py-24 py-12">
-  <div class="grid grid-cols-2 container">
-    <div class="flex flex-col justify-center">
+  <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-24 gap-12 container">
+    <div class="flex flex-col justify-center lg:items-start items-center">
       <div>
         <h2>
           Are you considering
