@@ -81,7 +81,7 @@ content %}
           class="hidden animate__animated animate__fadeIn"
         >
           <div class="lg:pt-12 pt-6">
-            <h4 class="font-semibold text-center">BASICS</h4>
+            <h4 class="font-semibold text-center text-slate-500">BASICS</h4>
             <div
               id="basic-car-details"
               class="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-12 gap-x-6 lg:pt-6 pt-3"
@@ -89,7 +89,9 @@ content %}
           </div>
 
           <div class="lg:pt-12 pt-6">
-            <h4 class="font-semibold text-center">PERFORMANCE</h4>
+            <h4 class="font-semibold text-center text-slate-500">
+              PERFORMANCE
+            </h4>
             <div
               id="performance-car-details"
               class="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-12 gap-x-6 lg:pt-6 pt-3"
@@ -107,7 +109,7 @@ content %}
         <input type="hidden" id="product-id" name="productId" value="" />
       </form>
       <div class="container lg:pt-12 pt-6">
-        <div class="grid grid-cols-3 gap-6">
+        <div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
           {% for car in similarCars %}
           <a
             class="shadow-md rounded-lg hover:shadow-lg hover:scale-105 group hover:delay-75 transition-transform cursor-pointer bg-white overflow-hidden"
@@ -121,7 +123,7 @@ content %}
             />
             <div class="flex justify-between lg:p-4 p-2 bg-white relative">
               <div>
-                <h5 class="font-semibold text-center">
+                <h5 class="font-semibold">
                   {{car.year}} {{car.make}} {{car.model}}
                 </h5>
               </div>
