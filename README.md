@@ -4,7 +4,7 @@
 
 ## Installation
 
-To set up this project and install its dependencies, follow these steps:
+in order to set up this project and install its dependencies, follow these steps:
 
 1. **Clone the Repository:**
 
