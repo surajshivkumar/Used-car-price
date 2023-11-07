@@ -1,6 +1,6 @@
 ## AutoWise: The Intelligent Used Car Marketplace
 
-**Description:** AutoWise is a cutting-edge used car marketplace that combines the power of machine learning with your car buying and selling needs. Experience a smarter and more efficient way to browse, buy, or sell used cars with our intelligent platform. AutoWise doesn't just connect car enthusiasts; it analyzes data to provide precise price predictions and offers personalized recommendations, ensuring you find the perfect vehicle. Welcome to the future of used car shopping with AutoWise!
+**Description:** AutoWise is a cutting-edge used car marketplace that combines the power of machine learning with your car buying and selling needs. Experience a smarter and more efficient way to browse, buy, or sell used cars with our intelligent platform. AutoWise doesn't just connect car enthusiasts; it analyzes data to provide precise price predictions and offers personalized recommendations, ensuring you find the perfect vehicle. Welcome to the future of used car shopping with AutoWise !
 
 ## Installation
 
