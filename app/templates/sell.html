@@ -448,13 +448,30 @@
             priceSectionDiv.classList.add("flex");
             priceSectionDiv.classList.remove("hidden");
             const loadingDelay = isFormSubmitted ? 1000 : 3500;
+
+            toggleDisabledState(true);
             setTimeout(() => {
               isFormSubmitted = true;
               loadingDiv.classList.add("hidden");
               resultDiv.classList.remove("hidden");
+              toggleDisabledState(false);
             }, loadingDelay);
           });
       });
+    }
+
+    function toggleDisabledState(isDisabled) {
+      const selectElements = document.querySelectorAll("select");
+      const inputElements = document.querySelectorAll("input");
+      const buttonElements = document.querySelectorAll("button");
+      const allFormElements = [
+        ...selectElements,
+        ...inputElements,
+        ...buttonElements,
+      ];
+      for (let i = 0; i < allFormElements.length; i++) {
+        allFormElements[i].disabled = isDisabled;
+      }
     }
 
     function setPriceDifference(predictedPrice) {
